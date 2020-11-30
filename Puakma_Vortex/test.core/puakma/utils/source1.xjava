@@ -1,0 +1,39 @@
+
+import puakma.system.*;
+import puakma.server.*;
+import puakma.addin.http.document.*;
+import java.util.*;
+import java.text.*;
+import java.io.*;
+import java.sql.*;
+
+/**
+*
+*/
+public class OpenMntIndustry extends ActionRunner
+{
+  private String CONNECTION_NAME = "SafetyData";
+  private String CONNECTION_HR = "GoldingHR";
+
+  public String execute()
+  {
+      TableManager t = new TableManager(pSystem, pSession, CONNECTION_NAME, "JOB");
+      String sIndustryID = ActionDocument.getParameter("IndustryID");
+        
+      ActionDocument.setDocumentItemChoices("IndustryID", t.makeChoicesArray("SELECT IndustryName,IndustryID FROM INDUSTRY ORDER BY IndustryName", "- Select an Industry -|"));   
+      ActionDocument.setItemValue("IndustryID", sIndustryID);
+      
+      if(sIndustryID==null || sIndustryID.length()==0) return "";
+      
+      HTMLView vwActions = new HTMLView(ActionDocument, "IndustryData.xsl", "SELECT * FROM INDUSTRYDATA WHERE IndustryID="+sIndustryID + " ORDER BY FinancialYear DESC", CONNECTION_NAME, null, null);             
+      vwActions.setRowsPerView(999);
+      vwActions.setAbsoluteViewMax(1000);
+      vwActions.setDocumentViewHTML("IndustryData");
+      return "";
+  }
+      
+}//class
+
+
+
+

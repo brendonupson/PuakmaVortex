@@ -1,0 +1,36 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Business Widgets</h1>
+<p>Puakma web services are based on SOAP and required the Enterprise Edition to be installed 
+in order to run (the require the WIDGIE server task). Puakma web services are possibly 
+the easiest way of creating and publishing web services. To create a Business Widget web 
+service, create a Java class that extends BusinessWidget.
+
+<pre>import puakma.addin.widgie.*;
+
+/**
+ * A sample web service 
+ */
+public class HelloWorld extends BusinessWidget
+{
+    public String sayHello()
+    {
+    	return “Hello, world!”;
+    }
+}
+</pre>
+
+<p>Once the code has been compiled and attached as a Business Widget, it will be automatically 
+loaded and mounted within the application, ready for use. There are no complicated WSDL interfaces 
+to write or configure. Business Widgets are run in their own thread so may also store their own data 
+that persists between calls to the service.
+
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

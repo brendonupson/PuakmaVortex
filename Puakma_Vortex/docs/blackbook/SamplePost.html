@@ -1,0 +1,30 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>POSTing other types of data</h1>
+<p>From time to time the server will need to accept other types of data rather than the standard 
+mime encoded or form encoded types from a standard web browser submission. An example may be 
+"text/plain". When one of these content types is POSTed, the server will place all the uploaded 
+data into a single document item called “Data”. This item will either be a standard DocumentItem 
+of DocumentFileItem depending on the size of the data POSTed. Data greater than 512Kb will result 
+in a DocumentFileItem being created. Following is an example of how to process the uploaded data 
+from a SaveAction.
+
+<pre>DocumentItem di = ActionDocument.getItem("Data");
+if(di.getType()==DocumentItem.ITEM_TYPE_FILE) {
+  DocumentFileItem dfi = (DocumentFileItem)di; //cast as DocumentFileItem
+  String sType = dfi.getMimeType();
+  File f = (File)dfi.getObject();
+}
+else {	
+  byte buf[] = di.getValue();
+}
+</pre>
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

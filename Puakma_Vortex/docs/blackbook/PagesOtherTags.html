@@ -1,0 +1,102 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Other Tornado tags</h1>
+
+<a name="computed" />
+<h3>Computed attribute</h3>
+<p>A computed field may be accessed by an OpenAction action and populated with plain text or formatted HTML.
+TODO: is there any value attribute? If so, then how is that used???</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Name of the computed field</td></tr>
+</table>
+<h5>Example:</h5>
+TODO: contribute some example how to set comp in action, and how to display it there
+
+<a name="computedDate" />
+<h3>Computed date</h3>
+<p>This will format a date object into the corresponding String value. This will ensure the date is always in read mode. 
+Possible values are: now, today, yesterday, tomorrow, nextweek, lastweek, nextmonth, lastmonth, nextyear, last year.</p>
+TODO: what does value attribute mean???
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>The name of the computed date field</td></tr>
+<tr><td class="attName">format</td>
+<td>Format of the date. The default is in the form dd/MM/yyyy. If you want to define your own, use this kind of format.
+TODO: is it taken from JDK???</td></tr>
+</table>
+
+<a name="cookie" />
+<h3>Cookie</h3>
+<p>When the browser sends a cookie up to the server, everywhere on the page that this tag appears will 
+be replaced with the value of the cookie. TODO: what about value attr???</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>The name of the cookie</td></tr>
+</table>
+
+<a name="path" />
+<h3>Path</h3>
+<p>Renders as path to the application. This is a handy tag useful for making application portable tags. For 
+example you might use this code to reference an image, eg <code>&lt;img src="&lt;P@Path @P&gt;/myimg.gif?OpenResource”&gt;</code>. 
+The path tag supports a value attribute to return only a part of the URI. For example for the URI "/apps/crm.pma" 
+the tag  will return "apps". Possible values are: Group, Application, Action, 
+DesignElementName, Parameters, FileExt</p>
+<h5>Example:</h5>
+<code>&lt;P@Path @P&gt;</code> renders for example to "/puakma.pma"
+
+<a name="username" />
+<h3>User name</h3>
+<p>Inserts the current user’s name in the page.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">value</td>
+<td>Format of the name. Valid values are "cn", "common", "canonical". All other values 
+will result in the abbreviated name being inserted.</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@UserName value="cn" @P&gt;</code> renders to for example: "Bob Smith/ACME"
+
+
+<a name="version" />
+<h3>Version string</h3>
+<p>Inserts a html comment in the source denoting the Puakma server version.</p>
+<h5>Example:</h5>
+<code>&lt;P@Version @P&gt;</code> displays something like <code>&lt;!-- Puakma v2.32 Build:303 - 30 October 2003 --&gt;</code>
+
+<a name="view" />
+<h3>View</h3>
+<p>This will render a table from the relational database.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the view</td></tr>
+<tr><td class="attName">datasource</td>
+<td>Is the SQL query to populate data.</td></tr>
+<tr><td class="attName">connectoin</td>
+<td>Is the database connection name as defined among the application's database connections. This parameter is optional 
+in the case that there is only one database connection.</td></tr>
+<tr><td class="attName">previoustext</td>
+<td>The text which appears on the previous button which allows user to jump to the previous view of table rows (according 
+to order of rows).</td></tr>
+<tr><td class="attName">nexttext</td>
+<td>The text which appears on the next button which allows user to jump to the next view of table rows (according 
+to order of rows).</td></tr>
+<tr><td class="attName">maxperpage</td>
+<td>Maximum rows populated in one view. This parameter is optional The default value means all rows.</td></tr>
+</table>
+<h5>Example:</h5>
+<pre>&lt;P@View Name="ViewName" datasource="SELECT * FROM SOMETABLE ORDER BY SomeColumn" xslstylesheet="browse.xsl" connection="conn_name" nexttext="Next" previoustext="Previous" maxperpage="25" ... @P>
+</pre>
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

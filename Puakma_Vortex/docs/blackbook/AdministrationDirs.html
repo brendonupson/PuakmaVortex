@@ -1,0 +1,82 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Directories structure</h1>
+
+<p>Tornado directories structure is inspired by unix filesystem. So there is 
+a root directory which doesn't contain anything, and couple of subdirectories 
+containing all necessary files structured in clear way.
+
+<h2>addins</h2>
+
+<p>Contains Tornado addins. Those addins are some java binaries which might be
+loaded to the server, and there might live it's own life. You can think about 
+addins as plugins for Tornado server. Addins live in the same classloader as
+Tornado server.
+
+<h2>bin</h2>
+
+<p>Contains Tornado binaries, and some startup scripts.
+
+<h2>config</h2>
+
+<p>Contains configuration files
+
+<h3>puakma.config</h3>
+
+<p>Tornado main configuration file. This <a 
+href="AdministrationPuakmaConf.html">document</a> describes content of this file.
+
+<h3>datadef.*</h3>
+
+<p>These files contain SQL definition of Tornado system database for various
+RMDB systems. Nowadays we have scripts for HSQLDB, Mysql, Postgre, and Oracle. 
+File datadef.sql is generic definition of SQL for Tornado system database. Feel
+free to modify this definition according to you database system.
+
+<h2>doc</h2>
+
+<p>This directory contains some documentation. This documentation is not accessible
+from the HTTP server, but only on local machine. It contains javadoc for Tornado
+server since it is not practical to load javadoc from HTTP server.
+
+<h2>html_public</h2>
+
+<p>Directory that contains files that are publicly accessible by HTTP server.
+There should be files that needs some directory structure as JavaScript libraries,
+etc...
+
+<h2>jdbc</h2>
+
+<p>This directory contains jar files with jdbc drivers for database connection.
+Those drivers live in the same classloader as Tornado server.
+
+<h2>lib</h2>
+
+<p>This directory contains java libraries loaded to the server at the startup.
+These libraries live in the tornado server classloader, not in the application
+classloaders.
+
+<p>See also <a href="AppDevClassLoaders.html">application classloaders</a>
+
+<h2>logs</h2>
+
+<p>This directory contains access logs, and error logs. 
+
+<h1>TODO: write something about log rotating etc...</h1>
+
+<h2>temp</h2>
+
+<p>This is temporary directory for the files used by Tornado server, and applications 
+on the Tornado server.
+
+<h2>tornado_installer</h2>
+
+<h1>What is exactly there???</h1><html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

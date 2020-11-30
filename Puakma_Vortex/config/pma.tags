@@ -1,0 +1,70 @@
+#
+#  DEFINITION OF AUTOCOMPLE OF PUAKMA TAGS
+#
+#  Please send all comments nad bug reports to mn@puakma.net
+#
+#  * tag is the parent tag which has common values for everyone.
+#
+
+*.pair=false
+*.specialEnd=@P
+
+P@Text.attribs=name,value
+P@Text.help=Puakma text field tag.
+
+P@Hidden.attribs=name,value
+P@Hidden.help=Puakma hidden field tag.
+
+P@Checkbox.attribs=name,value,Cols,choices
+P@Checkbox.help=Creates check boxes.
+
+P@Radio.attribs=name,value,choices
+P@Radio.help=Creates bunch of radio boxes.
+
+P@List.attribs=name,choices,value,size,MULTIPLE
+P@List.help=Creates combo box on the page. TODO: How does differ combo and list boxes???
+
+P@textarea.attribs=name,value,cols,rows
+P@textarea.help=Creates text area control.
+
+P@Page.attribs=pagename
+P@Hidden.help=Includes page to the position of the tag.
+
+P@Computed.attribs=name,value
+P@Computed.help=This writes value which has been put to the page in the OpenAction \
+action.
+
+P@Path.attribs=
+P@Path.help=Writes path to the application on the page. It's handy when creating \
+links or referencing to the images. For example when referencing to the nother page \
+write this: &lt;a href="&lt;P@Path @P&gt;/Main?OpenPage"&gt;Link&lt;/a&gt; which \
+writes &lt;a href="/puakma.pma/Main?OpenPage"&gt;Link&lt;/a&gt; which
+
+P@File.attribs=name
+P@File.help=Allows user to upload file using appropriate control.
+
+P@Password.attribs=name,value
+P@Password.help=Creates password text field on the page.
+
+P@Button.attribs=name,value
+P@Button.help=Creates button on the page.
+
+P@Form.attribs=
+P@Form.help=Creates html form in the page.
+
+P@Version.attribs=
+P@Version.help=Writes Puakma version to the page.
+
+P@Cookie.attribs=name,value
+P@Cookie.help=This tag will be replaced with the value of cookie.
+
+P@Date.attribs=name,value,format
+P@Date.help=Puakma date tag. It creates html text tag with the content representing \
+date formated by the Format
+
+P@ComputedDate.attribs=name,value,format
+P@ComputedDate.help=Formats Date object to the specific format.
+
+P@View.attribs=name,datasource,xslstylesheet,connection,nexttext,previoustext,maxperpage
+P@View.help=Shows table with result of action or sql query.
+

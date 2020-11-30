@@ -1,0 +1,42 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Changing the default page</h1>
+<p>It is possible to display a completely different page to that which the user requested. The following 
+code swaps the page design with that of “ReadersOnly”.
+
+<pre>DesignElement deAct = pSession.getDesignObject("ReadersOnly", DesignElement.DESIGN_TYPE_PAGE);
+if(deAct != null) {
+  ActionDocument.designObject = deAct;
+  ActionDocument.prepare(null);
+}</pre>
+
+<p>The following code retrieves the "NewPage" page from the design collection, prepares (breaks up and 
+parses the p-tags) and renders it (turns the p-tags back into valid HTML). 
+<pre>DesignElement deAct = pSession.getDesignObject("NewPage", DesignElement.DESIGN_TYPE_PAGE);
+if(deAct != null) {
+  try {
+    HTMLDocument docTemp = (HTMLDocument)ActionDocument.clone();
+    docTemp.setContent((byte[])null);
+    docTemp.setContent((StringBuffer)null);              
+    docTemp.designObject = deAct;
+    docTemp.prepare(null);
+    docTemp.renderDocument(false, false);
+    byte buf[] = docTemp.getContent();
+    if(buf!=null) {
+      this.setBuffer(buf);
+      this.setContentType(deAct.getContentType());                  
+    }
+  }
+  catch(Exception e) {
+    pSession.getSystemContext().doError("setupReturnHTML(): Error cloning current document: " + e.toString(), arAction);
+  }
+}
+</pre><html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

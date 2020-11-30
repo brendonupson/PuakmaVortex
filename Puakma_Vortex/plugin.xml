@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="passwordDialog" name="Vortex Password Dialog" schema="schema/passwordDialog.exsd"/>
+     <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="puakma.vortex.rcp.PuakmaDeveloperPerspective"
+            icon="icons/puakma.gif"
+            id="puakma.vortex.rcp.PuakmaDeveloperPerspective"
+            name="Puakma Vortex"/>
+   </extension>
+
+   <extension id="PuakmaIdeProduct" point="org.eclipse.core.runtime.products">
+      <product description="%productDescription" name="PuakmaVortexIde" application="org.eclipse.ant.core.antRunner">
+          <property name="windowImages" value="icons/icon16_branding.gif,icons/icon32.gif,icons/icon48.gif,icons/icon128.gif"/> 
+          <!--<property name="aboutImage" value="eclipse_lg.gif"/> 
+          <property name="aboutText" value="%productBlurb"/> -->
+          <property name="appName" value="PuakmaVortexIde"/> 
+          <property name="preferenceCustomization" value="plugin_customization.ini"/>
+          <property
+                name="aboutImage"
+                value="icons/icon128.gif"/> 
+      </product>
+   </extension>
+    
+    <extension
+          point="org.eclipse.ui.actionSets">
+       <actionSet
+             label="Puakma Vortex IDE Main Action Set"
+             visible="false"
+             id="puakma.vortex.mainActionSet">
+          <action
+                label="Open Tornado Application"
+                class="puakma.vortex.actions.menu.ConnectToApplicationDelegate"
+                icon="icons/openApplication.gif"
+                style="push"
+                menubarPath="PuakmaProject/top"
+                id="puakma.vortex.connectToApplication"/>
+          <action
+                label="Export .pmx"
+                class="puakma.vortex.actions.DownloadPmxCommand"
+                icon="icons/downloadPma.gif"
+                style="push"
+                menubarPath="PuakmaProject/exportImport"
+                id="puakma.vortex.downloadPmaApplication"/>
+          <action
+                label="Import .pmx"
+                class="puakma.vortex.actions.UploadPmxDelegate"
+                icon="icons/uploadPma.gif"
+                style="push"
+                menubarPath="PuakmaProject/exportImport"
+                id="puakma.vortex.downloadPmxApplication"/>
+          <menu
+                label="Vortex"
+                id="PuakmaProject">
+             <separator name="top"/>
+             <separator name="exportImport"/>
+          </menu>
+          <action
+                class="puakma.vortex.actions.menu.OpenDesignObjectActionDelegate"
+                definitionId="puakma.vortex.navigate.openDesignObjectCommand"
+                id="puakma.vortex.navigate.openDesignObject"
+                label="Open Tornado Design Object.."
+                menubarPath="navigate/open.ext2"
+                style="push"
+                tooltip="Open Design Object"/>
+       </actionSet>
+    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.ui.category.navigate"
+            description="Opens Design Object Chosen From Dialog"
+            id="puakma.vortex.navigate.openDesignObjectCommand"
+            name="Open Design Object"/>
+      <command
+            description="Executes SQL Query"
+            id="puakma.vortex.queryEditor.execute"
+            name="Execute Script"/>
+   </extension>
+	 <!--  win32:  M1=CTRL,    M2=SHIFT, M3=ALT, M4=-
+	    carbon: M1=COMMAND, M2=SHIFT, M3=ALT, M4=CTRL -->
+    <extension
+         point="org.eclipse.ui.bindings">
+         <key
+            sequence="M1+M2+D"
+            commandId="puakma.vortex.navigate.openDesignObjectCommand"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+         <key
+               commandId="puakma.vortex.queryEditor.execute"
+               contextId="org.eclipse.ui.contexts.editor"
+               schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+               sequence="M1+ENTER"/>
+    </extension>
+    <extension
+          point="org.eclipse.ui.perspectiveExtensions">
+       <perspectiveExtension targetID="puakma.vortex.rcp.PuakmaDeveloperPerspective">
+          <actionSet id="org.eclipse.ui.NavigateActionSet"/>
+          <actionSet id="puakma.vortex.mainActionSet"/>
+          <viewShortcut id="puakma.vortex.views.PuakmaResourceView"/>
+          <viewShortcut id="puakma.vortex.views.TornadoConsoleView"/>
+          <viewShortcut id="org.eclipse.pde.runtime.LogView"/>
+          <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
+          <viewShortcut id="org.eclipse.ui.views.PropertySheet"/>
+          <viewShortcut id="org.eclipse.jdt.ui.PackageExplorer"/>
+          <perspectiveShortcut id="org.eclipse.debug.ui.DebugPerspective"/>
+          <actionSet id="org.eclipse.jdt.ui.JavaActionSet"/>
+          <newWizardShortcut id="puakma.vortex.wizard.newAction"/>
+          <newWizardShortcut id="puakma.vortex.wizard.newPage"/>
+          
+          <view
+                id="puakma.vortex.views.PuakmaResourceView"
+                relationship="left"
+                visible="true"
+                relative="org.eclipse.ui.views.TaskList"/>
+          <view
+                id="puakma.vortex.views.TornadoConsoleView"
+                relationship="stack"
+                relative="org.eclipse.pde.runtime.LogView"
+                visible="true"/>
+       </perspectiveExtension>
+       <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+          <perspectiveShortcut id="puakma.vortex.rcp.PuakmaDeveloperPerspective"/>
+       </perspectiveExtension>
+       <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
+          <perspectiveShortcut id="puakma.vortex.rcp.PuakmaDeveloperPerspective"/>
+       </perspectiveExtension>
+       <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+          <perspectiveShortcut id="puakma.vortex.rcp.PuakmaDeveloperPerspective"/>
+       </perspectiveExtension>
+       <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+          <view
+                id="puakma.vortex.views.TornadoConsoleView"
+                ratio="0.5"
+                relationship="right"
+                relative="org.eclipse.ui.views.TaskList"/>
+       </perspectiveExtension>
+    </extension>
+
+   <extension
+         point="org.eclipse.ui.actionSetPartAssociations">
+      <actionSetPartAssociation
+            targetID="org.eclipse.ui.edit.text.actionSet.annotationNavigation">
+         <part id="puakma.vortex.editors.PmaHTMLEditor" />
+      </actionSetPartAssociation>
+      <actionSetPartAssociation
+            targetID="org.eclipse.ui.NavigateActionSet">
+         <part id="puakma.vortex.editors.PmaHTMLEditor" />
+      </actionSetPartAssociation>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="puakma.vortex.editors.design.PuakmaEditor"
+            icon="icons/puakma.gif"
+            contributorClass="puakma.vortex.editors.design.PuakmaEditorContributor"
+            name="Puakma Editor"
+            id="puakma.vortex.editors.PuakmaEditor"
+            />
+      <editor
+            class="puakma.vortex.editors.application.ApplicationEditor"
+            icon="icons/puakma.gif"
+            default="false"
+            name="Puakma Application Editor"
+            id="puakma.vortex.appEditor"/>
+      <editor
+            name="Puakma PTags HTML Editor"
+            default="true"
+            icon="icons/puakma.gif"
+            extensions="phtml"
+            contributorClass="org.eclipse.wst.html.ui.internal.edit.ui.ActionContributorHTML"
+      			class="puakma.vortex.editors.pma.PmaStructuredTextEditor"
+            symbolicFontName="org.eclipse.wst.sse.ui.textfont"
+            id="puakma.vortex.editors.PmaHTMLEditor"/>
+      <editor
+            class="puakma.vortex.editors.query.QueryEditor"
+            contributorClass="puakma.vortex.editors.query.QueryEditorContributor"
+            icon="icons/database.gif"
+            id="puakma.vortex.editors.query.QueryEditor"
+            name="SQL Query Editor"/>
+      <editor
+            class="puakma.vortex.editors.dbschema.DatabaseSchemaEditor"
+            contributorClass="puakma.vortex.editors.dbschema.DatabaseSchemaEditorActionBarContributor"
+            default="true"
+            extensions="dbschema"
+            icon="icons/table.gif"
+            id="puakma.vortex.editors.dbschema.DatabaseSchemaEditor"
+            name="Database Schema Editor"/>
+   </extension>
+   	<extension point="org.eclipse.core.runtime.contentTypes">
+		<content-type
+			file-extensions="phtml"
+			priority="high"
+			name="Puakma HTML"
+			id="pmasource"
+			base-type="org.eclipse.wst.html.core.htmlsource">
+			<describer
+				class="puakma.vortex.editors.pma.parser2.PmaContentDescriber" />
+		</content-type>
+	</extension>
+   	<extension point="org.eclipse.wst.sse.ui.editorConfiguration">
+		<contentOutlineConfiguration
+			class="puakma.vortex.editors.pma.outline.PmaContentOutlineConfiguration"
+			target="puakma.vortex.pmasource" />
+		<sourceViewerConfiguration
+			class="puakma.vortex.editors.pma.parser2.PmaStructuredTextViewerConfiguration"
+			target="puakma.vortex.pmasource" />
+		<sourceViewerConfiguration
+       		class="org.eclipse.wst.html.ui.StructuredTextViewerConfiguration"
+			target="puakma.vortex.pmasource"/>
+<!--		<contentOutlineConfiguration
+			target = "puakma.editor.pmasource"
+			class = "org.eclipse.jst.jsp.examples.tld.ui.internal.TLDContentOutlineConfiguration"/>
+			-->
+	</extension>
+	<extension point="org.eclipse.wst.sse.core.modelHandler">
+		<modelHandler
+			default="no"
+			class="puakma.vortex.editors.pma.parser2.ModelHandlerForPma"
+			associatedContentTypeId="puakma.vortex.pmasource"
+			id="puakma.vortex.modelhandler">
+		</modelHandler>
+	</extension>
+	
+	<!-- VALIDATION -->
+	<extension id="PmaValidator" name="Puakma Combined Syntax Validator"
+		point="org.eclipse.wst.validation.validator">
+		<validator>
+			<filter objectClass="org.eclipse.core.resources.IFile" nameFilter="*.phtml" />
+			<helper class="org.eclipse.wst.html.internal.validation.HTMLValidationWorkbenchHelper" />
+		  <run async="true" fullBuild="true" incremental="true" enabled="true"
+			     class="puakma.vortex.editors.pma.validation.PmaValidator" />
+		</validator>
+	</extension>
+	<extension point="org.eclipse.wst.sse.ui.sourcevalidation">
+		<validator
+			scope="partial"
+			class="puakma.vortex.editors.pma.validator.PmaValidator"
+			id="puakma.vortex.editor.pma.validator.PmaSyntaxValidator">
+			<contentTypeIdentifier
+				id="puakma.vortex.pmasource">
+				<partitionType id="org.eclipse.wst.html.HTML_DEFAULT"/>
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT"/>
+				<partitionType id="org.eclipse.wst.sse.ST_DEFAULT"/>
+			</contentTypeIdentifier>
+		</validator>
+		
+		<validator
+			scope="partial"
+			class="org.eclipse.wst.xml.ui.internal.validation.MarkupValidator"
+			id="org.eclipse.wst.html.ui.internal.validation.markupvalidator">
+			<contentTypeIdentifier
+				id="org.eclipse.wst.html.core.htmlsource">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT"/>
+				<partitionType id="org.eclipse.wst.sse.ST_DEFAULT"/>
+			</contentTypeIdentifier>
+		</validator>
+		
+	</extension>
+	
+	
+	<!-- VIEWS -->
+   <extension point="org.eclipse.ui.views">
+      <category name="Puakma Vortex" id="puakma.vortex"/>
+      <view
+            category="puakma.vortex"
+            class="puakma.vortex.views.navigator.PuakmaResourceView"
+            icon="icons/puakma.gif"
+            id="puakma.vortex.views.PuakmaResourceView"
+            name="Tornado Navigator">
+         <description>
+            Tornado Navigator shows all resources in your Puakma Tornado applications
+         </description>
+      </view>
+      <view
+            category="puakma.vortex"
+            class="puakma.vortex.views.console.TornadoConsoleView"
+            icon="icons/sample.gif"
+            id="puakma.vortex.views.TornadoConsoleView"
+            name="Tornado Console"/>
+   </extension>
+   
+   <!-- SNIPPET VIEW CONFIGURATION -->
+   <extension
+		point="org.eclipse.wst.common.snippets.SnippetContributions">
+		<category
+			label="Tornado Server"
+			smallicon="icons/puakma.gif"
+			id="puakma.vortex.snippets.category0"
+			contenttypes="puakma.vortex.pmasource">
+			<item
+				label="Computed tag"
+				smallicon="icons/tag-pma.png"
+				id="puakma.vortex.snippets.category0.testSnippet">
+				<content><![CDATA[<P@Computed name="" value="" @P>]]></content>
+			</item>
+			<item id="RSL" label="ResultSet Loop" largeicon="" smallicon="icons/java_file.gif">
+			<description><![CDATA[Loop through a JDBC ResultSet]]></description>
+			<content>Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		try
+		{
+			conn = pSession.getDataConnection(null);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(&quot;SELECT * FROM ATABLE ORDER BY X&quot;);
+			while(rs.next())
+			{
+				
+			}
+		}
+		catch(Exception e)
+		{
+			pSystem.doError(e.toString(), this);
+		}
+		finally
+		{
+			Util.closeJDBC(rs);
+			Util.closeJDBC(stmt);
+			pSession.releaseDataConnection(conn);
+		}</content>
+</item>
+		<item id="tablemanager" label="TableManager" largeicon="" smallicon="icons/java_file.gif">
+			<description><![CDATA[Create a TableManaber object]]></description>
+			<content><![CDATA[TableManager t = new TableManager(pSystem, pSession, CONNECTION_NAME, "TABLENAME");]]></content>
+		</item>
+		<item id="htmlview" label="HTMLView" largeicon="" smallicon="">
+			<description><![CDATA[Create a HTMLView object. Used to render rows of data on a page]]></description>
+			<content><![CDATA[HTMLView vw = new HTMLView(ActionDocument, "stylesheet.xsl", "SELECT * FROM ATABLE WHERE ID=ID ORDER BY ColName", CONNECTION_NAME, null, null);
+			vw.setDocumentViewHTML("PageFieldName");]]></content>
+		</item>
+		<item id="st" label="HTML &lt;script&gt; tag set" largeicon="" smallicon="">
+			<description><![CDATA[Insert script tags]]></description>
+			<content><![CDATA[<script language="JavaScript">
+<!--
+
+// -->
+</script>]]></content>
+		</item>
+		<item id="prototype" label="prototype.js Ajax request" largeicon="" smallicon="">
+			<description><![CDATA[Insert script tags]]></description>
+			<content><![CDATA[new Ajax.Request('ActionJS?OpenAction&z='+Math.random(),
+            {
+                method:'post',
+                parameters: '&ParamID='+ID,
+                onSuccess: function(transport)
+                {
+                    var response = transport.responseText || null;
+                    if(response && response=='sometext') getOOOO();
+                },
+                onFailure: function(){ alert('Ajax failed') }
+            });
+			]]></content>
+		</item>
+		
+		<item id="actdoc_param" label="ActionDocument.getParameter" largeicon="" smallicon="">
+			<description><![CDATA[Get a URL parameter, eg ...&name=fred]]></description>
+			<content><![CDATA[String sParam = ActionDocument.getParameter("param");
+			]]></content>
+		</item>
+		
+		<item id="actdoc_paramint" label="ActionDocument.getParameterInteger" largeicon="" smallicon="">
+			<description><![CDATA[Get a URL parameter as a long value, eg ...&meaningoflife=42]]></description>
+			<content><![CDATA[long lParam = ActionDocument.getParameterInteger("param");
+			]]></content>
+		</item>
+		
+		<item id="actdoc_getitem" label="ActionDocument.getItemValue" largeicon="" smallicon="">
+			<description><![CDATA[Get the value of an item on ActionDocument]]></description>
+			<content><![CDATA[String sValue = ActionDocument.getItemValue("ItemName");
+			]]></content>
+		</item>
+		
+		<item id="actdoc_getitemint" label="ActionDocument.getItemIntegerValue" largeicon="" smallicon="">
+			<description><![CDATA[Get the long value of an item on ActionDocument]]></description>
+			<content><![CDATA[long lValue = ActionDocument.getItemIntegerValue("ItemName");
+			]]></content>
+		</item>
+		
+		<item id="actdoc_setitem" label="ActionDocument.setItemValue" largeicon="" smallicon="">
+			<description><![CDATA[Set the value of an item on ActionDocument]]></description>
+			<content><![CDATA[ActionDocument.setItemValue("ItemName", sNewValue);
+			]]></content>
+		</item>
+		
+		
+		<item id="xsl_js" label="XSL anchor tag (Javascript)" largeicon="" smallicon="icons/xml_file.gif">
+			<description><![CDATA[Create a xsl javascript enabled anchor tag]]></description>
+			<content><![CDATA[<a class=""><xsl:attribute name="href"><xsl:text>javascript:yourMethod('&amp;ID=</xsl:text><xsl:value-of select="item[@name='idcolumn']/value"/><xsl:text>');</xsl:text></xsl:attribute>
+        <xsl:value-of select="item[@name='colname']/value"/></a>]]></content>
+		</item>
+		
+		</category>
+	</extension>
+	
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="puakma.vortex.wizards"
+            name="Puakma Tornado"/>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewApplicationWizard"
+            icon="icons/newprj.gif"
+            id="puakma.vortex.wizard.NewApplicationWizard"
+            name="Tornado Application"
+            project="true">
+         Creates an application on Puakma Tornado server
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewLibraryWizard"
+            icon="icons/library.gif"
+            id="puakma.vortex.wizard.newLibraryWizard"
+            name="Library">
+         Creates a new Java jar library on Tornado server
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.UploadResourceWizard"
+            id="puakma.vortex.wizard.uploadResource"
+            name="Upload Existing Resource">
+         Uploads resource on Tornado server
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewResourceWizard"
+            icon="icons/text.gif"
+            id="puakma.vortex.wizard.uploadResource"
+            name="Empty Text Resource">
+         Creates an empty text resource on Tornado server
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewPageWizard"
+            icon="icons/text.gif"
+            id="puakma.vortex.wizard.newPage"
+            name="Page">
+         Creates a page on Tornado server
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewActionWizard"
+            icon="icons/newclass_wiz.gif"
+            id="puakma.vortex.wizard.newAction"
+            name="Action">
+         Creates a Tornado action
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewClassWizard"
+            icon="icons/newclass_wiz.gif"
+            id="puakma.vortex.wizard.newClass"
+            name="Class">
+         Creates a new Java class on Tornado server
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewInterfaceWizard"
+            icon="icons/newint_wiz.gif"
+            id="puakma.vortex.wizard.newInterface"
+            name="Interface">
+         Creates a new Java interface on Tornado server
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewEnumerationWizard"
+            icon="icons/newenum_wiz.gif"
+            id="puakma.vortex.wizard.newEnum"
+            name="Enumeration">
+         Creates a new Java enum on Tornado server
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewScheduledActionWizard"
+            icon="icons/newclass_wiz.gif"
+            id="puakma.vortex.wizard.newScheduledAction"
+            name="Scheduled Action">
+         Creates a scheduled action on Tornado server
+      </wizard>
+      <wizard
+            category="puakma.vortex.wizards"
+            class="puakma.vortex.wizard.NewSOAPWidgetWizard"
+            icon="icons/newclass_wiz.gif"
+            id="puakma.vortex.wizard.newSOAPWidget"
+            name="SOAP Widget">
+         Creates a SOAP widget on Tornado server
+      </wizard>
+      <primaryWizard id="puakma.vortex.wizard.newPage"/>
+      <primaryWizard id="puakma.vortex.wizard.newAction"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/ovr16/pma_project.gif"
+            id="puakma.vortex.projectNatureImage"
+            natureId="puakma.vortex.projectNature"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="puakma.coreide.objects2.ServerObject"
+            class="puakma.vortex.PuakmaAdapterFactory">
+         <adapter type="org.eclipse.core.resources.IResource"/>
+         <adapter type="org.eclipse.jdt.core.IJavaElement"/>
+      </factory>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editorActions">
+      <editorContribution
+            id="puakma.vortex.editors.query.QueryEditorActionContributor"
+            targetID="puakma.vortex.editors.query.QueryEditor">
+         <action
+               class="puakma.vortex.editors.query.QEExecuteAction"
+               definitionId="puakma.vortex.queryEditor.execute"
+               id="puakma.vortex.queryEditor.executeAction"
+               label="Execute"
+               menubarPath="Database/top"
+               style="push"/>
+         <menu
+               id="Database"
+               label="&amp;Database">
+            <separator name="top"/>
+         </menu>
+      </editorContribution>
+   </extension>
+   <extension point="org.eclipse.help.toc">
+    <toc file="book.xml" primary="true" />
+	 </extension>
+   <extension
+         name="Vortex Preferences"
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="puakma.vortex.preferences.VortexMainPreferencesPage"
+            id="puakma.vortex.preferences.VortexMainPreferencesPage"
+            name="Puakma Vortex">
+         <keywordReference id="puakma.vortex.preferences.VortexMainPreferencesKW"/>
+      </page>
+      <page
+            category="puakma.vortex.preferences.VortexMainPreferencesPage"
+            class="puakma.vortex.preferences.ConsolePreferencesPage"
+            id="puakma.vortex.preferences.ConsolePreferencesPage"
+            name="Console">
+         <keywordReference id="puakma.vortex.preferences.ConsolePreferencesKW"/>
+      </page>
+      <page
+            category="puakma.vortex.preferences.VortexMainPreferencesPage"
+            class="puakma.vortex.preferences.NavigatorPreferencePage"
+            id="puakma.vortex.preferences.NavigatorPreferencePage"
+            name="Navigator">
+         <keywordReference id="puakma.vortex.preferences.NavigatorPreferencesKW"/>
+      </page>
+      <page
+            category="puakma.vortex.preferences.VortexMainPreferencesPage"
+            class="puakma.vortex.preferences.UploaderPreferencePage"
+            id="puakma.vortex.preferences.UploaderPreferencePage"
+            name="Upload">
+         <keywordReference id="puakma.vortex.preferences.UploaderPreferencesKW"/>
+      </page>
+      <page
+            category="puakma.vortex.preferences.VortexMainPreferencesPage"
+            class="puakma.vortex.preferences.JrePreferencesPage"
+            id="puakma.preferences.JavaVersionPreferencesPage"
+            name="Default JRE">
+         <keywordReference id="puakma.preferences.JavaVersionPreferencesKW"/>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="puakma.vortex.preferences.PreferenceInitializer"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.keywords">
+      <keyword
+            id="puakma.vortex.preferences.VortexMainPreferencesKW"
+            label="Puakma Vortex"/>
+      <keyword
+            id="puakma.vortex.preferences.ConsolePreferencesKW"
+            label="Puakma Vortex console"/>
+      <keyword
+            id="puakma.vortex.preferences.NavigatorPreferencesKW"
+            label="Puakma Vortex database navigator"/>
+      <keyword
+            id="puakma.vortex.preferences.UploaderPreferencesKW"
+            label="Puakma Vortex upload action"/>
+      <keyword
+            id="puakma.preferences.JavaVersionPreferencesKW"
+            label="Puakma Vortex JRE Java version"/>
+      <keyword
+            id="puakma.preferences.DebugPreferencesKW"
+            label="Puakma Vortex debug"/>
+      <keyword
+            id="puakma.preferences.ProxyPreferencesKW"
+            label="Puakma Vortex http proxy"/>
+   </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+     <propertyContributor contributorId="puakma.vortex.editors.dbschema.DatabaseSchemaEditor">
+        <propertyCategory category="main"/>
+     </propertyContributor>
+  </extension>
+  <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+     <propertyTabs contributorId="puakma.vortex.editors.dbschema.DatabaseSchemaEditor">
+        <propertyTab category="main" id="TableMainTab" label="Main"/>
+        <propertyTab afterTab="TableMainTab" category="main" id="TableColumnsListTab" label="Columns"/>
+        <propertyTab category="main" id="ColumnMainTab" label="Main"/>
+        <propertyTab afterTab="ColumnMainTab" category="main" id="ColumnIndexTab" label="Indexes"/>
+        <propertyTab afterTab="ColumnIndexTab" category="main" id="ColumnDescTab" label="Description"/>
+     </propertyTabs>
+  </extension>
+  <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+     <propertySections contributorId="puakma.vortex.editors.dbschema.DatabaseSchemaEditor">
+        <propertySection class="puakma.vortex.editors.dbeditor.properties.TableSection"
+              id="TableMainTabNameSection" tab="TableMainTab">
+           <input type="puakma.coreide.objects2.Table"/>
+           <input type="puakma.vortex.editors.dbeditor.parts.TablePart"/>
+        </propertySection>
+        <propertySection class="puakma.vortex.editors.dbeditor.properties.TableColumnsListSection"
+              id="TableColumnsListSection" tab="TableColumnsListTab">
+           <input type="puakma.coreide.objects2.Table"/>
+           <input type="puakma.vortex.editors.dbeditor.parts.TablePart"/>
+        </propertySection>
+        <propertySection class="puakma.vortex.editors.dbeditor.properties.TableColumnMainSection"
+              id="TableColumnMainTabNameSection" tab="ColumnMainTab">
+           <input type="puakma.coreide.objects2.TableColumn"/>
+           <input type="puakma.vortex.editors.dbeditor.parts.TableColumnPart"/>
+        </propertySection>
+        <propertySection class="puakma.vortex.editors.dbeditor.properties.TableColumnIndexSection"
+              id="TableColumnIndexTabNameSection" tab="ColumnIndexTab">
+           <input type="puakma.coreide.objects2.TableColumn"/>
+           <input type="puakma.vortex.editors.dbeditor.parts.TableColumnPart"/>
+        </propertySection>
+        <propertySection class="puakma.vortex.editors.dbeditor.properties.TableColumnDescSection"
+              id="TableColumnDescTabNameSection" tab="ColumnDescTab">
+           <input type="puakma.coreide.objects2.TableColumn"/>
+           <input type="puakma.vortex.editors.dbeditor.parts.TableColumnPart"/>
+        </propertySection>
+     </propertySections>
+  </extension>
+  <extension
+        id="product"
+        point="org.eclipse.core.runtime.products">
+     <product
+           application="org.eclipse.ui.ide.workbench"
+           name="PuakmaVortexIde">
+        <property
+              name="windowImages"
+              value="icons/icon16_branding.gif,icons/icon32.gif,icons/icon48.gif,icons/icon64.gif,icons/icon128.gif">
+        </property>
+        <property
+              name="aboutImage"
+              value="icons/icon128.gif">
+        </property>
+        <property
+              name="appName"
+              value="PuakmaVortexIde">
+        </property>
+        <property
+              name="startupForegroundColor"
+              value="000000">
+        </property>
+        <property
+              name="startupMessageRect"
+              value="7,245,445,20">
+        </property>
+        <property
+              name="startupProgressRect"
+              value="5,260,445,15">
+        </property>
+        <property
+              name="preferenceCustomization"
+              value="plugin_customization.ini">
+        </property>
+     </product>
+  </extension>
+</plugin>

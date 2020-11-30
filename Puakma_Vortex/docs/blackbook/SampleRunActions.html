@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Running Actions Programmatically</h1>
+<p>From time to time it may be necessary to run an action on a document. A common use is for 
+a save action to run the corresponding open action. This saves duplicating code for the populating 
+combo-boxes and adding standard items to the UI.
+
+<pre>pSession.runActionOnDocument(ActionDocument, "AnActionName"); 
+</pre>
+
+<p>The following example could be a save action:
+
+<pre>public String execute()
+{
+  //process the save-specific items here here...
+
+  //now run some actions to refill the UI and lists
+  pSession.runActionOnDocument(ActionDocument, "GlobalPrefill");
+  pSession.runActionOnDocument(ActionDocument, "OpenSearchJobs");
+  return "";
+}
+</pre>
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

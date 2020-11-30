@@ -1,0 +1,60 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Actions</h1>
+<p>Actions perform the logic or data processing of the application. Actions may be invoked in three ways:
+<ol>
+<li>Directly from a URL, eg: http://servername/group/app.pma/ActionName?OpenAction
+<li>When a particular page is opened
+<li>When a particular page is submitted
+</ol>
+
+<p>Actions are simple Java classes that extend ActionRunner. A simple Action that prints “Hello, world!” 
+to the browser follows:
+
+<pre>
+import puakma.system.*;
+
+/**
+ * A simple Puakma action template.
+ */
+public class SimpleAction extends ActionRunner
+{
+  public String execute()
+  {
+    this.writeln(“Hello, world!”);
+    return ""; //no redirect!
+  }
+}
+</pre>
+
+<h2>Global Actions</h2>
+<p>Global Actions are defined as part of the Application Settings section. A global OpenAction 
+is run every time a Page or Action is called. There may be multiple Global Actions which are run 
+sequentially. The first action to output some value halts the chain processing the response from 
+that Action is sent to the browser.
+
+<p>Global Actions are great for either prefilling fields on a Page (such as menu items, user names 
+and the like) or controlling complex security. By placing all your application access logic in one 
+place it makes it very easy to control who has access to which portions of the application without 
+peppering the application logic with security checks.
+
+<h2>Scheduled Actions</h2>
+<p>Scheduled Actions have identical code to a regular Action, but they are not able to output to 
+a browser. Scheduled Actions are run by the AGENDA server task at the time defined by the Scheduled 
+Action’s settings in the webdesigner application.
+
+<p>A great way to test a scheduled action during development is to save it into the design collection 
+as a regular action. This way the developer needs only to open the URL for the action for the action 
+logic to be executed.
+
+<br/>
+<img src="WebDesignerSchedAction.png" />
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

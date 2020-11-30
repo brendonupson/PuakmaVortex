@@ -1,0 +1,40 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Class Loaders</h1>
+<p>Tornado Server has two class loaders. The first is created when the server is started and 
+its main job is to simplify the classpath. It actually serves two purposes, first files need 
+only be copied to directories to be available to the class loader (eg /lib/) and secondly it 
+allows new code to be loaded on a server restart without exiting the JVM. Allowing new code 
+to be loaded on a server restart means that overall downtime due to an upgrade is minimized 
+since the administrator can simply copy and prepare all files, then restart the server. 
+The second classloader (SharedActionClassLoader) is responsible for retrieving application 
+specific class data from the database.
+
+<h2>SharedActionClassLoader</h2>
+<p>This classloader performs the bulk of the work. There is one of these classloaders created 
+for each .pma application and one for Actions, Shared Actions and Business Widgets. 
+
+<p>When an action is run or widget loaded, the class loader must determine the real class name 
+of the action as it may be different to its name in the design collection. Next it must determine 
+what libraries are to be used with this action (AlwaysLoad or action specific UseLibrary). All 
+these items are added to an internal cache so the action is typically slow to load the first 
+time it is run, then loads very quickly afterward.
+
+<p>The classloader's cache must be purged and the classloader dropped when a design element is 
+changed. This is to ensure subsequent actions correctly pick up the new code. This also means 
+that any stored session objects (pSession.addSessionObject(); ) must be removed because the server 
+is unable to guarantee that the object stored on the session is still valid or that a library it 
+relies on is available. Further, when sessions are saved to disk on a server restart (eg "restart 
+server save" or "quit save" at the console), any objects loaded with this classloader are discarded.
+
+<p>This classloader should not be used directly by the programmer, we have included information 
+here merely to give developers an understanding of its operation.
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

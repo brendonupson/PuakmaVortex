@@ -1,0 +1,97 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Security</h1>
+<p>The application server takes care of application security. By configuring roles 
+in the web application the server is able to determine which users may access which 
+resources. Checking of these roles is delegated to an “Authenticator” which allows 
+security to be handled in the same way for all applications residing on the server. 
+Developers may create their own customer authenticators to handle logging in against 
+many different kinds of data sources. An application may handle its own security and 
+login process, but it is recommended to delegate this to the authentication subsystem, 
+since this makes the application more portable between environments.
+
+<p>Tornado Server uses a role-based security model. Developers create roles specific 
+to the application and then associate individual names or groups to those roles. When
+ a name or group is assigned a role, that is referred to as a permission.
+
+<p>There is a special role named "AllowAccess". This role is checked automatically by 
+the server when an application user attempts to access a design element within the design 
+collection. A setting of "*" allows all users basic access to the design elements 
+of the application. When you create a new application, an "AllowAcces" and an "Admin" 
+role are created automatically. 
+
+<p>"WebServiceAccess" controls who may call web services.
+
+<p>"ResourceAccess" controls which users without the "AllowAccess" role can access resources. 
+This is useful for applications that don’t allow anonymous access but have their own internal 
+login page (that references resources in the same application).
+
+<p>Permissions may be specified in a number of ways:
+<ul>
+<li>A person’s full X500 name, eg: "John Smith/Sales/AcmeCorp"</li>
+<li>A group name, eg: "All Sales Staff"</li>
+<li>A wildcard name, eg "*/Sales/AcmeCorp"</li>
+<li>* meaning anyone including anonymous users</li>
+<li>!* anyone except anonymous users (users must be authenticated)</li>
+</ul>
+<p>In addition, multiple permissions may be assigned to each role. Permissions are not granular, 
+if a user's name matches one of the permissions, they have the role. It is then up 
+to the developer’s code to determine what may be done based on that permission. To check roles 
+in the Action java code:
+
+<pre>if(pSession.hasRole("DocumentCreator")) {
+	//perform the specific logic
+}
+</pre>
+
+<p>A useful way of handling security is to utilize a “Global Action” that does role and permission 
+checking in a central spot, outside of the main application logic. The advantage of this approach 
+is that all security rules are in one place and all design elements are catered for. This also 
+means the developer can code the security rules after the bulk of the application has been 
+developed. Following is a sample security Global Action.
+
+
+<pre>
+import puakma.system.*;
+
+/**
+ * Called for every page automatically to ensure the correct security is applied. 
+ */
+public class GlobalSecurity extends ActionRunner
+{
+  public String execute()
+  {
+    String LOGIN_PAGE="Login";
+
+    //If anonymous user, plug to the Login Page.
+    if(pSession.getUserName().equals(pmaSession.ANONYMOUS_USER)) {
+      if(ActionDocument.designObject.getDesignName().equalsIgnoreCase(LOGIN_PAGE))
+        return "";
+      return ActionDocument.rPath.getFullPath() + "&login";
+    }
+
+    RequestPath rpPage = ActionDocument.rPath;
+    String sPage = ActionDocument.rPath.szDesignElement;
+
+    //admin has access to everything
+    if(pSession.hasUserRole("Admin"))
+      return "";
+      
+    //if we get to here, we’re not an admin so check each page   
+    if(sPage.equalsIgnoreCase("Administration"))
+      return getDBURL()+ "/Unavailable?OpenPage";
+
+    //add more page and role checks here
+
+    return “”;
+  }
+}//end class
+</pre><html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

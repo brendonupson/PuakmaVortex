@@ -1,0 +1,43 @@
+TESTING SOAPDESIGNER AND VORTEX CORE DATABASE FEATURES
+------------------------------------------------------
+
+GENERAL RULEZ:
+
+ - server group for testing applications: "test"
+ - server test applications are backed by the same testing database as the database testing
+ - before running test suite:
+    - ensure puakma app server is running
+    - remove all applications from group "test"
+    - ensure that servers we want to test are running
+
+(1) Testing some application on the server
+
+ - APLIKACE: serverTestApp
+ 
+(2) Testing database over server connection
+
+ - APPLICATION: dbTestApp
+ - DB CONNECTION: testDbCon
+ 
+ setUp()
+ - connect thru the native jdbc driver
+ - clear the whole schema thru jdbc
+ - then create needed tables thru jdbc
+ - connect to the server
+ 
+ executeTest()
+ - execute test
+ 
+ - remove all tables - this is however not necessary, and might fail
+ 
+(3) Testing solo database
+ 
+ setUp():
+ - connect to database
+ - clear schema
+ - create needed tables
+ 
+ executeText()
+ 
+ shutDown()
+ - clear the whole schema

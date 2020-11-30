@@ -1,0 +1,74 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Pages</h1>
+
+<p>Pages are usually html in nature. Pages bind together the UI components and provide an easy
+means of changing the "look" of an application. Typically pages contain &lt;P@ tags. These tags
+allow the Actions to insert data dynamically into a web page. This gives pages the ability
+to interact with Actions and consequently, the database. Pages may also be text/xml, text/xsl,
+text/plain, or actually any mime-type at all.
+
+<p>A page may have an OpenAction and a SaveAction parameter set in the webdesigner. The OpenAction 
+parameter defines what action is run when a pages is opened, while the SaveAction defines what 
+Action is run when the page is submitted to the server. These parameters are optional.
+
+<p>We recommend using the "Parent Page" functionality discussed later.
+
+<h2>Custom Login Pages</h2>
+
+<p>Puakma supports a custom login page per application. If no page custom login page is specified, 
+then the default login page ($Login) from within /puakma.pma will be displayed.
+
+<p>The Application Settings section defines the name of the custom login page for the application. 
+This page name must exist as a Page within the application.
+
+<p>A login page must have four specific elements to function correctly:
+<ol>
+<li>"$LoginPage" set to "1" to tell Puakma this is to be used for login
+<li>"Username" field with the user's name
+<li>"Password" field with the user's password
+<li>"$RedirectTo" field containing the URI of the page to be displayed after a successful login. 
+Note that this field should be of type <code>&lt;@Hidden name="$RedirectTo" value="" @P&gt;</code> The server will 
+automatically populate this field with the correct path when the login page is presented.
+</ol>
+
+<p>There are more advanced methods of providing custom login processes, since Actions have almost 
+full system access. This is an advanced topic and will be covered by a later BlackBook.
+
+<h2>Custom Error Pages</h2>
+
+<p>When a user requests an element from an application that does not exist in the design collection, 
+Puakma will attempt to locate a Page named "404" to serve to the user. A "403" Page may also be served
+ if the user does not have access to the element they are requesting.
+
+<h2>Page Tags</h2>
+
+<p>Tornado supports custom pages tags which allows some specific server-side processing of HTML files.
+ Those custom tags define some additional functionality that is for example automatic form elements 
+ handling, hiding some parts of page in some context, including other pages, and some more.
+
+<p>The Tornado tags begins with formula , inside have html like attributes. 
+So for example you would use <code>&lt;P@Text  name="name" value="" @P&gt;</code> for displaying html 
+text form field. Also note that tag name is case sensitive, and attribute names are not case sensitive.
+Puakma tags can are valid within one line only. So you cannot split it up to two lines.
+
+<h3>HTML formatting and page inclusion tags</h3>
+
+<h3>Other tags</h3>
+
+
+
+Note: With most fields you can also include a UseKeyword="yourkeyword" parameter. This will populate the list with your keyword values created through the Keywords option in the webdesign app. 
+
+Combo-boxes, list boxes, radio buttons and check-boxes all have the ability to get their choices from a connection in the application. Add datasource=”SELECT Name,’: ‘,Age,ID FROM PERSON ORDER BY Name” and connection=”DataConnectionName”. This will execute the select query against the named connection and populate the choices of the field with the contents of the database. You may also add firstchoice=”- Select an Option -|” to make the first choice in a list. This follows the same convention as the View tag.
+
+Multiple selection tags also support an additional option of  missingvaluetext=”The value is not in the list” . This tag option allows for the field’s value to be added as an option to the list. This is useful in cases where you have a list of choices of, for example, active companies and the record you are editing refers to an inactive company. Ordinarily with HTML, a combo box will default to the first value in the list where no matches are made. Adding this option to a p-tag enables the dynamic checking and adding of the value to the choicelist. Setting the option value to an empty string will use the value of the item as both the choice and the value.
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

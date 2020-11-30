@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY % boolean "(true|false|yes|no)">
+<!ENTITY % int CDATA>
+<!ENTITY % string CDATA>
+
+<!ELEMENT puakmaApplication (app:settings*,app:db*,app:keywords*,app:security*,app:designs*)>
+
+<!ELEMENT app:settings EMPTY>
+
+<!ELEMENT app:db EMPTY>
+
+<!ELEMENT app:keywords EMPTY>
+
+<!ELEMENT app:security EMPTY>
+
+<!ELEMENT app:designs (app:designElement*)>
+
+<!ELEMENT app:designElement (app:designElementDesc)>
+<!ATTLIST app:designElement
+	"id CDATA #REQUIRED
+	 name CDATA #REQUIRED"
+>

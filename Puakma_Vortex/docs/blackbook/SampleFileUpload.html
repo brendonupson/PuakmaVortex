@@ -1,0 +1,48 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Working with file uploads</h1>
+<p>Getting a handle to a file uploaded by a user is handled in the following way. 
+First, create a page with a file upload control, developers can use the inbuilt 
+Tornado Server p-tags or native html:
+
+<pre>&lt;P@Form @P>
+&lt;P@File name="FileData" @P&gt;
+&lt;input type="submit" name="btnSubmit" value="Upload file" /&gt;
+&lt;/form&gt;
+</pre>
+
+<p>Next create a save action for the page:
+<pre>TableManager t = new TableManager(pSystem, pSession, "YourConnectionName", "ATTACHMENT_TABLE_NAME");
+String sAttach = ActionDocument.getItemValue("FileData"); //get filename
+String sMimeType = "";
+if(sAttach!=null && sAttach.length()>0) {
+  int iIndex = sAttach.lastIndexOf('/');  //Check if Unix Style
+  if(iIndex == -1 ) { //Not found 
+    iIndex = sAttach.lastIndexOf('\\'); //Check if Windows style
+  }
+  //Extract the last substring, leaving just the filename
+  sAttach = sAttach.substring(iIndex+1); 
+  //get a handle to the file item
+  DocumentFileItem dfi = (DocumentFileItem) ActionDocument.getItem("FileData");
+  if(dfi!=null) {
+   	sMimeType = dfi.getMimeType();
+    byte btData[] = dfi.getValue();
+    if(btData != null && btData.length > 0) {
+      //load TableManager with the data
+      t.setField("MimeType", sMimeType);      
+      t.setField("FileData", btData);
+      t.setField("FileName", sAttach);                        
+    }
+  } // dfi != null
+}
+//save the data to the database
+t.insertRow();
+</pre><html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

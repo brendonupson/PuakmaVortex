@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Advanced Authentication Options</h1>
+
+<p>The Puakma server takes care of all security, leaving the developer free to perform the occasional 
+role check. Authentication to the server is managed by one or more “Authenticators” which are 
+configured in Puakma.config. Developers may write their own Authenticators and install them 
+at the server level. All applications on the server use the same authentication chain. 
+
+<p>The authentication chain is the list of Authenticators in a specific order used to log 
+users in to the server. Puakma ships with the default authenticator which checks usernames 
+and passwords against a relational database. Also on the http://www.puakma.net website there 
+are some additional authenticators, such as LDAP. This means that if a legacy system such 
+as Domino is used, the user information may be utilized. There is also code available to authenticate 
+against Netware NDS.
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

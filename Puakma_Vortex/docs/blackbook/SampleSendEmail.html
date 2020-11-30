@@ -1,0 +1,42 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Sending email</h1>
+
+<p>Sending email is very easy. All that is required is to set the fields on a document, then call 
+send() method of the document. The correct sending of email requires that the server is running 
+the MAILER task and that it is configured correctly.
+
+
+<pre>//Create a temporary Document
+Document docEmail = new Document(pSystem, pSession.getSessionContext());     
+//set the from field to a value in the keywords collection
+docEmail.replaceItem("From", pSession.getKeywordValue("DefaultEmailSender"));
+String sDate = puakma.util.Util.formatDate(new java.util.Date(), "EEEE d MMMM yyyy");
+//set the subject
+docEmail.replaceItem("Subject", "Reminder for "+ sDate);
+//Add some recipients
+String sRecipients = "test@puakma.net,test2@puakma.net";
+docEmail.replaceItem("SendTo", sRecipients);
+//docEmail.replaceItem("CopyTo", sCCEmailAddress);
+//docEmail.replaceItem("BlindCopyTo", sBCCEmailAddress);
+docEmail.replaceItem("Body", The bulk of the email message goes here…");
+
+//put the message in the outbound mail queue for processing by mailer
+if(!docEmail.send())
+{
+	//email was not sent…
+} 
+</pre>
+
+<p>Note that the send method does not physically transfer the mail to the recipient’s mail server. 
+When the send() method returns true, this simply mean that the message was successfully placed 
+in the outbound queue ready for processing by the MAILER task.
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>
