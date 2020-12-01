@@ -1,0 +1,9 @@
+ - java objecty budou mit parameter externalReference, zde bude nazev externiho projektu,
+   coz je ale jenom informacni vec, protoze kdyz se v projektu nenajde, tak to budem
+   hledat i v ostatnich projektech. A kdyz ho nenajdem, tak to holt smazem [-; Nicmene
+   externalReference parametr bude klicovy pri zjistovani externi reference.
+ - ".vortexExternalProjects" bude nazev design objectu, ktery schranuje konfigurace
+   viz PuakmaProject2Impl.VORTEX_EXTERNAL_PROJECT_CONFIGURATION
+ - pri startu java projektu se zeptame uzivatele, jestli chce nechat obnovit vsechny
+   java soubory z externich projektu. Jestli jo, tak je smazem a znova udelame.
+   TODO: nemazat, ale updatovat [-;

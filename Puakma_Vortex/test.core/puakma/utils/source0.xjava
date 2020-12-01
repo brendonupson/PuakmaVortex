@@ -1,0 +1,73 @@
+
+
+import puakma.system.*;
+import puakma.util.*;
+import puakma.addin.http.document.*;
+import java.util.*;
+import java.sql.*;
+
+/**
+* Puakma action
+*/
+public class SaveIncidentReports extends ActionRunner
+{
+  public String execute()
+  {     
+    String sIncidentID = ActionDocument.getItemValue("IncidentID");
+    
+    return saveIncidentReport(sIncidentID);    
+  }
+
+  /**
+   *
+   */
+  private String saveIncident(String sIncidentID)
+  {
+    boolean bOK=false;
+    
+    TableManager t = new TableManager(pSystem, pSession, null, "INCIDENT");
+    java.util.Date dtNull=null;
+    
+    t.setField("ClientNotified", ActionDocument.getItemValue("ClientNotified"));
+    t.setField("ContractorInvolved", ActionDocument.getItemValue("ContractorInvolved"));
+    t.setField("IncidentDescription", ActionDocument.getItemValue("IncidentDescription"));
+    t.setField("IncidentType", ActionDocument.getItemValue("IncidentType"));
+    t.setField("ReportedBy", ActionDocument.getItemValue("ReportedBy"));
+    t.setField("SiteID", ActionDocument.getItemValue("SiteID"));
+    t.setField("IncidentDate", ActionDocument.getItemDateValue("IncidentDate"));
+    t.setField("RecordLocked", "N"); 
+    
+    if(sIncidentID==null || sIncidentID.length()==0 || sIncidentID.equals("*")) 
+    {
+      //insert   
+      t.removeField("IncidentID");
+      t.setField("IncidentCreated", new java.util.Date() );
+      t.setField("IncidentCreator", pSession.getUserName() );      
+      bOK = t.insertRow(); //.saveRow("", false);            
+    }
+    else
+    {      
+      //update 
+      bOK = t.saveRow("WHERE IncidentID=" + ActionDocument.getItemValue("IncidentID"), true);
+    }
+
+    if(bOK)
+    {            
+      t.getRowFromDB(); 
+      return getDBURL() + "/Incident?OpenPage&ID=" + t.getFieldString("IncidentID");
+    }
+    else
+    {
+      return getDBURL() + "/Error?OpenPage&z=" + System.currentTimeMillis();
+    }    
+    //return getDBURL();
+  }
+
+
+  
+}//class
+
+
+
+
+

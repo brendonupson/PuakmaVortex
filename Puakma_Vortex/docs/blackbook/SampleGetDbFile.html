@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Retrieving files from the database</h1>
+<p>Once a file has been saved to the database, users will need a way to retrieve the files. 
+Files are typically stored in a binary “BLOB” in the database which is why the mime-type and 
+filename columns are also required. To get the file from the database an action is created 
+to do the work. The HTML page references the action in the following way:
+<code>&lt;a href="&lt;P@Path @P&gt;/GetFile?OpenAction&amp;ID=17"&gt;Download File&lt;/a&gt;
+
+<p>Next create an action called “GetFile” and add it to the design collection.
+
+<pre>//retrieve the URL parameter
+String sID = ActionDocument.getParameter("ID");
+Connection cx = null;
+try {
+  cx = pSession.getDataConnection("YourConnectionName");
+  Statement Stmt = cx.createStatement();
+  ResultSet RS = Stmt.executeQuery("SELECT * FROM ATTACHMENT_TABLE_NAME WHERE FileID=" + sID);
+  if(RS.next()) { //only interested in the first row returned 
+    //get the data from the resultset
+    byte[] bufData = RS.getBytes("FileData");
+    String sContentType = RS.getString("MimeType");
+    String sFileName = RS.getString("FileName");
+	//set the HTTP payload to return
+    setBuffer(bufData);
+    //take any spaces from the filename
+    sFileName = sFileName.replaceAll(" ", "_");
+    setContentType(sContentType + "\r\nContent-Disposition: attachment; filename=" + sFileName);
+  }
+  RS.close();
+  Stmt.close();
+}
+catch(Exception e) {
+  pSystem.doError("Error getting attachment data: " + e.toString(), this);
+}
+finally {
+  pSystem.releaseSystemConnection(cx);
+}
+// return nothing, so the setBuffer() call takes effect
+return "";
+</pre>
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

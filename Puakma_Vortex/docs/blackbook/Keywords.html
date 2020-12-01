@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Keywords</h1>
+
+<p>Keywords are a storage area for application specific data that changes infrequently. 
+Common uses for key words are Combo-box values, or specific locations or settings used 
+in the code.
+
+<p>Keywords consist of a keyword item, which is a name that developers use to access 
+the keyword, and a set of one or more data items.
+
+<p>There are two ways to access keywords, either as a part of a page element tag:
+
+<pre>&lt;P@List name="Status" value="" useKeyword="DocumentStatus" @P&gt;</pre>
+
+<p>or from within the Action code:
+
+<pre>Vector vList = pSession.getAllKeywordValues("DocumentStatus", true);
+String sFirstValue = pSession.getKeywordValue("DocumentStatus");
+</pre><html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

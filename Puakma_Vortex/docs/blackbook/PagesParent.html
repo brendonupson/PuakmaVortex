@@ -1,0 +1,46 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Parent/Child Pages</h1>
+
+<p>Tornado server provides the ability to put the majority of the page’s markup and layout in 
+a “parent page”. The idea is that a site will have few parent pages and many child pages. This 
+allows the bulk of the layout and markup to be included on the parent page and only the specific 
+markup added to the child. This allows complete rebranding of an application by altering only 
+the parent page(s). 
+
+<p>To enable this functionality, create a page in the design collection ensure that the page includes 
+one   tag. This is the spot where the child page will be placed. Next create the child 
+page with the html fields and markup as required. Ensure that the page parameters specify the ParentPage 
+attribute is set to the name of the parent page.
+
+<p>SimpleParentLayout
+<pre>&lt;html&gt;
+&lt;head>&lt;title&gt;&lt;P@Computed name="title" value="Your Tornado App" @P&gt;&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;img src="&lt;P@Path @P&gt;/yourlogo.jpg"&gt;&lt;br/&gt;
+&lt;P@ChildPage @P&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>ChildPage
+<pre>&lt;P@Form @P&gt;
+Name: &lt;P@Text name="Name" @P&gt;&lt;br/&gt;
+Age: &lt;P@Text name="Age" size="5" @P&gt;&lt;br/&gt;
+&lt;P@Button name="btnOK" value="Submit" onclick="document.forms[0].submit();" @P&gt;
+&lt;/form&gt;
+</pre>
+
+<p>Ensure the ChildPage design element has the following parameter set:
+
+<p>When a web user requests the child page http://yourserver/app.pma/ChildPage?OpenPage 
+The child page will be automatically inserted into the parent.
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

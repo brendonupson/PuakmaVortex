@@ -1,0 +1,33 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Creating fields dynamically</h1>
+<p>In some cases (particularly combo-boxes, list-boxes) programmers need an easy way to create 
+many identical fields, with perhaps the only different being the field name.
+
+<p>This example inserts 30 combo boxes with a slightly different name to the computed field “DynamicData”
+<pre>&lt;P@Computed name="DynamicData" @P&gt;</pre>
+
+<pre>HTMLDocumentItem  hdi = new HTMLDocumentItem(ActionDocument, "&lt;P@List name=\"ListFieldName\" @P&gt;");
+String sChoices[] = new String[] { "item1", "item2", "item3"};
+
+StringBuffer sb = new StringBuffer();
+int i = 1;
+while(i &lt;= 30) {
+  sb.append("Add some text….&lt;br/&gt;");
+  hdi.setName("DynamicField_" + i);
+  ActionDocument.setItemChoices("DynamicField_" + i, sChoices);
+  StringBuffer sbCombo = hdi.getHTML(false); //false means edit mode
+  Sb.append(sbCombo);
+  i++;
+}
+ActionDocument.setItemValue("DynamicData", sb.toString());
+</pre>
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

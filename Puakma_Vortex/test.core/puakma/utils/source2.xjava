@@ -1,0 +1,78 @@
+
+package actions;
+
+import puakma.system.*;
+import java.util.*;
+import java.sql.*;
+import puakma.addin.http.document.*;
+
+/**
+ * Called on every page to ensure the correct security is applied. This 
+ * should be app specific
+ */
+public class GlobalSaveSecurity extends ActionRunner
+ {     
+     private String CONNECTION_NAME = "SafetyData";     
+     
+     public String execute()
+     {                                               
+        String sPage = ActionDocument.rPath.DesignElementName;				
+        String sAction = ActionDocument.rPath.Action;
+        String szParam = ActionDocument.rPath.Parameters;                        
+                
+        if(sAction.equalsIgnoreCase("SavePage"))
+        {
+            if(pSession.hasUserRole("SafetyAdmin") || pSession.hasUserRole("Admin") || pSession.hasUserRole("SafetyOfficer")) 
+            {                
+                return "";
+            }
+            
+            if(sPage.equalsIgnoreCase("Search")) return "";
+            
+            //if we are saving a corrective action and the assignee is the current user, allow the save
+            if(sPage.equalsIgnoreCase("dlgEditAction"))
+            {
+                String sAssignedToID = ActionDocument.getItemValue("ActionAssignee");
+                String sMyID = this.getMyEmployeeID();
+                if(sMyID!=null && sAssignedToID!=null && sAssignedToID.equals(sMyID)) return "";
+            }
+            
+            
+            //no saving allowed
+            return getDBURL() + "/Unavailable?OpenPage";
+        }
+        
+        
+        return ""; //no redirect! 
+     }//end execute
+     
+     /**
+   *
+   */
+  private String getMyEmployeeID()
+  {
+      String sMyId=null;
+      Connection cx=null;
+      try
+      {  cx = pSession.getDataConnection(CONNECTION_NAME);
+         Statement stmt = cx.createStatement();
+         X500Name nmUser = new X500Name(pSession.getUserName());
+         ResultSet RS = stmt.executeQuery("SELECT EmployeeID FROM PERSON WHERE UserName='" + nmUser.getCanonicalName() + "' OR UserName='"+nmUser.getCommonName() + "'" );          
+         if(RS.next()) 
+         {  
+             sMyId = RS.getString(1);            
+         }
+         RS.close();
+         stmt.close();
+      }
+      catch (Exception e)
+      {
+         pSystem.doError("Error getting EmployeeID: " + e.toString(), this);
+         e.printStackTrace();
+      }
+      
+      pSession.releaseDataConnection(cx);
+      return sMyId;
+  }
+              
+}//class

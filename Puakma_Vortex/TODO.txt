@@ -1,0 +1,1 @@
+ - unify the download process for the both change and refresh states - needs some refactoring

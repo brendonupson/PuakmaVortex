@@ -1,0 +1,29 @@
+body {
+/*margin: 0; padding: 0;*/
+font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+font-size: 84%/*76%*/;
+background-color: white;
+line-height: 1.33;
+}
+
+pre {
+  border: gray dashed 2px; background-color: lightblue; padding: 10px;
+  /*moz 1.0/1.1/1.2.1, net 7.0/7.01 make this way too small, but i'm not going to go larger because monospace tends to run you into overflow pretty quick. prior moz and net are okay.*/                                                                                       
+  font-family: monospace;
+  font-size: 120%;
+}
+code {
+  font-size: 120%; background-color: lightblue; border: gray dashed 1px; padding-left: 0.5em; padding-right: 0.5em;
+}
+img {
+  border: 2px solid black;
+}
+h1 {
+  border-bottom: 2px black dotted;
+}
+h2 {
+  border-bottom: 2px black dotted;
+}
+h3 {
+  border-bottom: 2px black dotted;
+}

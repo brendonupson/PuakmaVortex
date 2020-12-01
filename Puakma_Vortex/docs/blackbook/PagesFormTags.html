@@ -1,0 +1,270 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>HTML P-tags</h1>
+
+<p>P-tags are used to place html fields on a page. Tornado Server automatically converts these p-tags into their html
+equivalents (xhtml compliant) which can be understood by web browsers. P-tags allow the programmer to represent a field with a single
+tag and that tag can be easily changed later to completely change the field type, for example changing a combo box to a set of
+radio buttons.
+</p>
+
+<a name="form" />
+<h3>Form definition</h3>
+<p>The form tag contains a block of html fields that can be submitted to the server. &lt;form&gt; html is a simple way to generate the correct reference to ensure that a save action will
+run on the current page. Programmers may craft their own form tags if required.
+If programmers want to use GET method to send the form, the "method" parameter should be overridden.
+This tag must be closed with the &lt;/form&gt; further down the html code.
+</p>
+<h5>Attributes</h5>
+<h5>Example:</h5>
+
+<code>&lt;P@Form @P&gt;</code> generates <code>&lt;form name="PagesName" method="post" action="/group/appname.pma/PageName?SavePage" &gt;</code>
+
+<style>
+.attrTable {
+  width: 800px; border: 1px dashed black;
+}
+.attrTable tr {
+  border: 1px dashed black;
+}
+.attrTable tr td {
+  vertical-align: top; padding-left: 10px;
+}
+.attName {
+  font-weight: bold;
+}
+</style>
+
+<a name="text" />
+<h3>Text field</h3>
+<p>Creates a new text form field.</p>
+<p>Use: A simple one line text box for data input.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the text field</td></tr>
+<tr><td class="attName">value</td>
+<td>The default value of the field. This value appears in the text field when in action form is not filled
+item with name as name attribute.</td></tr>
+<tr><td class="attName">size</td>
+<td>Optional. The number of characters wide this field will appear on the page.</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Text name="txtField" @P&gt;</code> generates <code>&lt;input type="text" name="txtField" /&gt;</code>
+
+<a name="password" />
+<h3>Password field</h3>
+<p>Creates a new password form field.</p>
+<p>Use: Allows a secure input field for entering passwords</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the form field</td></tr>
+<tr><td class="attName">value</td>
+<td>The default value of the field. This value appears in the text field when in action form is not filled
+item with name as name attribute.</td></tr>
+<tr><td class="attName">size</td>
+<td>Optional. The number of characters wide this field will appear on the page.</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Password name="pwfield" @P&gt;</code> generates <code>&lt;input type="password" name="pwfield" /&gt;</code>
+
+<a name="textarea" />
+<h3>Text area field</h3>
+<p>Creates a new text area form field. This is field allows entry of paragraphs of text across multiple lines.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the form field</td></tr>
+<tr><td class="attName">value</td>
+<td>The default value of the field. This value appears in the text field when in action form is not filled
+item with name as name attribute.</td></tr>
+<tr><td class="attName">cols</td>
+<td>Number of columns in characters in the text area.</td></tr>
+<tr><td class="attName">rows</td>
+<td>Number of rows in the text area</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@TextArea name="text" value="" cols="40" rows="5" @P&gt;</code>
+
+<a name="checkbox" />
+<h3>Checkbox field</h3>
+<p>Creates a checkbox field or group of checkboxes. Produces a set of boxes that may be checked on or off. None to all
+check boxes in the set may be checked.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the form field</td></tr>
+<tr><td class="attName">value</td>
+<td>The default checked buttons of the group of checkboxes.</td></tr>
+<tr><td class="attName">cols</td>
+<td>Maximum number of columns for checkboxes</td></tr>
+<tr><td class="attName">choices</td>
+<td>The enumeration of checkboxes. This field has the same format for all listboxes, comboboxes, etc...
+The form is: option1|1,option2|2,option3|3.</td></tr>
+<tr><td class="attName">usekeyword</td>
+<td>Gets the choices for this keyword from the named keyword</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Checkbox name="chk" choices="Choice Description|X" @P&gt;</code> generates <code>&lt;input name="chk" type="checkbox" value="X" /&gt;Choice Description</code>
+
+<a name="radio" />
+<h3>Radio buttons</h3>
+<p>Creates a group of radio buttons. Only one radio button in the set may be checked.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the form field</td></tr>
+<tr><td class="attName">value</td>
+<td>Is the choice which is selected by default.</td></tr>
+<tr><td class="attName">cols</td>
+<td>The maximum number of radio button columns.</td></tr>
+<tr><td class="attName">choices</td>
+<td>Defines choices from which can user choose. The format is: option1|1,option2|2,option3|3.</td></tr>
+<tr><td class="attName">usekeyword</td>
+<td>Gets the choices for this keyword from the named keyword</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Radio name="rad" choices="Choice1|1,Choice2|2" @P&gt;</code> generates <code>&lt;input type="radio" value="1" /&gt;Choice1 &lt;input type="radio" value="2" /&gt;Choice2</code>
+
+<a name="list" />
+<h3>List tag</h3>
+<p>Creates a combo box or list field. Combo field allows user to pick one of the provided possibilities. List allows to select 
+more items at once. To display a list box, define attribute <code>size</code>, where size defines the number of rows of choices to display. 
+To allow users to select multiple choices, specify <code>multiple="1"</code> attribute. Choices passed
+to the field can be not only listed in <code>choices</code> tag, but also in <code>usekeyword</code> attribute which loads
+choices automaticaly from keyword from Tornado system database.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the form field</td></tr>
+<tr><td class="attName">value</td>
+<td>Is the choice which is selected by default.</td></tr>
+<tr><td class="attName">choices</td>
+<td>Defines choices from which can user choose. The format is: option1|1,option2|2,option3|3.</td></tr>
+<tr><td class="attName">multiple</td>
+<td>Optional: Allow selection of multiple values from a listbox.</td></tr>
+<tr><td class="attName">size</td>
+<td>Number of rows in the listbox. Specifies that this tag is rendered as a listbox.</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@List name="myList" choices="One|1,Two|2" @P&gt;</code> generates <code>&lt;select name="myList"&gt;&lt;option value="1" &gt;One&lt;/option&gt;&lt;option value="2" &gt;Two&lt;/option&gt;&lt;/select&gt;</code>
+
+<a name="date" />
+<h3>Date field</h3>
+<p>Creates a field which allows user to edit date. This date will be then passed as a Date object to the processing save action.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the form field</td></tr>
+<tr><td class="attName">value</td>
+<td>Possible default values are: now, today, yesterday, tomorrow, nextweek, lastweek, nextmonth, lastmonth, nextyear, last year.</td></tr>
+<tr><td class="attName">format</td>
+<td>Format of the date, for example <code>dd.MM.yyyy</code>. For a list of possible formats see <a target="_blank" href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html">http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html</a></td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Date name="dtNow" value="now" format="yyyy-MM-dd" @P&gt;</code> generates <code>&lt;input type="text" name="dtNow" value="2006-06-28" /&gt;</code>
+
+<a name="hidden" />
+<h3>Hidden field</h3>
+<p>Creates a text field which is not visible on the htmll page. This field should be used for example for transfering 
+some identifiers in the form.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the field</td></tr>
+<tr><td class="attName">value</td>
+<td>Defines the value to be placed in the field</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Hidden name="myID" value="2988" @P&gt;</code> generates <code>&lt;input type="hidden" name="myID" value="2988" /&gt;</code>
+
+
+<a name="button" />
+<h3>Button</h3>
+<p>Creates a button.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the form field</td></tr>
+<tr><td class="attName">value</td>
+<td>Defines text which appears on the button.</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Button name="btnSave" value="Save" onclick="doSave(this);" @P&gt;</code> generates <code>&lt;input type="button" name="btnSave" value="Save" onclick="doSave(this);" /&gt;</code>
+
+
+
+<a name="file" />
+<h3>File field</h3>
+<p>Creates a file upload control which allows the user to select a file from their disk, and send it to the server. When this field is included on a page, the 
+form tag is automatically changed to multipart.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Defines the name of the form field</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@File name="importFile" @P&gt;</code> generates <code>&lt;input type="button" name="btnSave" value="Save" onclick="doSave(this);" /&gt;</code>
+
+
+<a name="parameter" />
+<h3>Page parameter</h3>
+<p>When you pass a parameter to a page, 
+this tag allows the programmer to insert that parameter value in the page without writing any page action. 
+eg: if the page is opened with the url "http://server/group/app.pma&amp;<b>fred=17</b>" 
+everywhere in the page this tag appears with a name of "fred", will show the string "17"</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Name of the parameter passed to the page.</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Parameter name="ParamName" @P&gt;</code>
+
+<a name="path" />
+<h3>Path</h3>
+<p>Shows the path to the current application. Useful for ensuring references to other application resources are explicit.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">value</td>
+<td>Optional. Values include: Group, Application, DesignElementName, Action, Parameters</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Path @P&gt;</code> generates <code>/group/yourapp.pma/</code>
+
+
+<a name="path" />
+<h3>Path</h3>
+<p>Shows the path to the current application. Useful for ensuring references to other application resources are explicit.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">value</td>
+<td>Optional. Values include: Group, Application, DesignElementName, Action, Parameters</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Path @P&gt;</code> generates <code>/group/yourapp.pma/</code>
+
+<a name="computed" />
+<h3>Computed</h3>
+<p>The Computed tag is a placeholder which allow text to be inserted at that position from an action.</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>The nam ethat actions will use to insert text in this position.</td></tr>
+<tr><td class="attName">value</td>
+<td>The text to be inserted.</td></tr>
+<tr><td class="attName">usekeyword</td>
+<td>The keyword name to insert the keyword values</td></tr>
+</table>
+<h5>Example:</h5>
+<code>&lt;P@Computed name="myField" value="8877" @P&gt;</code> generates <code>8877</code>
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

@@ -1,0 +1,103 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Installation</h1>
+
+<p>Installing Tornado Server is simple, before you start, make sure you have the following:
+
+<ol>
+	<li>Downloaded a copy of the Sun JRE or JDK version 1.4.2 or greater (see: 
+	<a href="http://java.sun.com/">http://java.sun.com/</a>) and installer from 
+	<a href="http://www.puakma.net">http://www.puakma.net</a>
+	<li>Two minutes free for the installation ;-)</li>
+</ol>
+
+<p>For the purpose of this install process, it is assumed that Microsoft Windows NT is 
+the operating system with the database server on the same machine. The basic techniques
+used here should easily translate across to other operating systems, database servers 
+and hardware platforms. 
+
+<h2>Architecture and hardware configuration</h2>
+<p>The design of Puakma is such that almost any hardware/server configuration may be used. 
+You may have your database servers clustered and behind a firewall, with Puakma sitting out 
+front. You can even have multiple Puakma servers utilising the same data source. This allows 
+you to, say, run a HTTP server on two machines, while using yet another for scheduled 
+processing and mail. You are also able to run a multiple copies of Puakma on the same 
+machine. The possible configurations are almost endless. Various architectures will be 
+discussed later.
+
+<h2>1. Installing the JDK/JRE</h2>
+<p>Go to the Sun website and download the latest JDK (Java Development Kit). The JDK 
+is for developers and includes the JRE (You can install just the JRE, but the full SDK 
+is recommended). Please follow Sun's install instructions. When the install has completed, 
+type java -version at the command prompt. You should see something like the following:
+
+<pre>C:>java -version
+java version "1.4.0"
+Java(TM) 2 Runtime Environment, Standard Edition (build 1.4.0-b92)
+Java HotSpot(TM) Client VM (build 1.4.0-b92, mixed mode)
+</pre>
+
+<p>Tornado Server requires 1.4.0 or greater JDK.
+
+<h2>2. Installing Tornado Server</h2>
+<p>Locate TornadoServerInstall.jar and double-click to execute the installation. This file is a self-launching Java application and should work on all GUI platforms. Sometimes .jar files are not associated correctly with Java applications and they will not automatically launch on some machines. If this occurs, open a command shell and type “java –jar TornadoServerInstall.jar” in the folder that contains TornadoServerInstall.jar.
+
+<p>Next follow the installation screens and input your installation choices.
+
+<p>Puakma contains an embedded database called HSQLDB. This is loaded automatically when the server is started and means that you do not need to worry about setting up a database server. If you decide that you would rather use mySQL, PostgreSQL or other RDBMS, then this may be configured. The database setup scripts for other databases are included in the /config/ folder and are named datadef.xxxx (eg datadef.mysql for mySQL). Set up the database as per the vendor’s instructions and run the appropriate configuration script to create the Puakma system tables. Next copy the vendor’s jdbc driver to /jdbc/, and then update puakma.config with the database connection strings (eg SystemDBURL and SystemDriverClass etc).
+
+<p>Finally, to start Puakma, run pmaStart.bat. You should see screen output similar to the following:
+
+<pre>*** PUAKMA JAVA APPLICATION SERVER ***
+CONFIG: ../config/puakma.config
+SYSTEM CLASSES: puakma.jar
+ADDIN CLASSES: ../addins/
+LIBRARY CLASSES: ../lib/
+LOADING JDBC DRIVER: hsqldb.jar
+LOADING JDBC DRIVER: mysql-connector-java-3.1.8-bin.jar
+LOADING JDBC DRIVER: postgresql-8.0-311.jdbc3.jar
+LOADING: /data/puakma/bin/../lib/itext-1.3.jar
+LOADING: /data/puakma/bin/../lib/jcifs-1.2.0.jar
+LOADING: /data/puakma/bin/../lib/poi-2.5.1-final-20040804.jar
+LOADING: /data/puakma/bin/../lib/velocity-1.4.jar
+
+
+Puakma ENTERPRISE SERVER v3.21 Build:547 - 7 September 2005
+Loading configuration from: ../config/puakma.config
+Loading language file: ../config/msg_en.lang
+Session Timeout: 360 min.
+Anonymous Session Timeout: 1 min.
+
+
+07/09/2005 19:06:24: (I) System hostname 'dolphin.wnc.net.au'  (SYSTEM - pmaSystem)
+07/09/2005 19:06:24: (I) Authenticator: 'puakma.security.pmaDefaultAuthenticator' loaded  (SYSTEM - pmaSystem)
+
+07/09/2005 19:06:24: (E) ###### THIS SERVER HAS NOT BEEN LICENSED ######  (SYSTEM - pmaSystem)
+07/09/2005 19:06:24: (E) ######### FOR NON-COMMERCIAL USE ONLY #########  (SYSTEM - pmaSystem)
+07/09/2005 19:06:24: (E) #########    http://www.puakma.net    #########  (SYSTEM - pmaSystem)
+07/09/2005 19:06:29: (I) PUAKMA Startup (Puakma ENTERPRISE SERVER v3.21 Build:547 - 7 September 2005)  (SYSTEM - pmaServer)
+07/09/2005 19:06:29: (I) System console is ready for commands  (SYSTEM - pmaServer)
+07/09/2005 19:06:29: (I) HTTP TORNADO Startup  (SYSTEM - HTTP)
+</pre>
+
+<p>The first server startup may be slightly slower than normal since the HSQLDB task will create the system database and tables, then populate this with the design data and login information for SysAdmin. Please check the startup screen carefully for any error messages (E).
+
+<p>At the server console you can execute a variety of commands. Type a ? then enter to get help. You can also 'tell' tasks to do things. eg, tell HTTP cache status
+
+<p>As you can see from the screen above, the configuration for your server is held in /puakma/config/puakma.config Edit this file with your favourite text editor to change your server's behaviour.
+
+<p>Next start your web browser and type the hostname (or localhost if you are on the same machine) into the browser's address bar. Enter the SysAdmin username and the password you entered during the install process. We recommend you create a new user and add them to the Admin group, and delete the default SysAdmin account.
+
+<p>People and groups, logs and server console may be administered from http://your_server/system/admin.pma 
+Web applications can be created and edited from http://your_server/system/webdesign.pma 
+
+<p>If your server does not have a GUI console, the installation can be run on any machine with a GUI console, then the resulting files copied to the non-GUI machine.
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

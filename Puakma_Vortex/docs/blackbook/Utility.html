@@ -1,0 +1,109 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Utility Classes</h1>
+
+<p>The Puakma.jar file contains many useful classes and methods to speed development time.
+
+<h2>puakma.addin.http.document.TableManager</h2>
+<p>TableManager is designed to provide an abstraction layer between the relational database 
+server and the action. It is used for getting data from the database, XML conversion of resultsets, 
+and insertion and updating of data.
+
+<p>Insert a row into the TRAININGDATA table:
+<pre>TableManager t = new TableManager(pSystem, pSession, "YourConnectionName", "TRAININGDATA");
+t.setField("TrainingCreator", pSession.getUserName());
+//save the record
+t.insertRow();
+or
+t.updateRow(“WHERE ID=45”);
+</pre>
+
+<p>Displaying existing data onto a Page:
+<pre>TableManager t = new TableManager(pSystem, pSession, "YourConnectionName", "PERSON");
+t.populateDocument("SELECT * FROM PERSON WHERE EMPLOYEEID=" + sID, ActionDocument);
+</pre>
+
+<p>Server-side XML/XSL transforms:
+<pre>TableManager t = new TableManager(pSystem, pSession, "YourConnectionName", "PERSON");
+StringBuffer sb = t.getXML("SELECT * FROM PERSON LIMIT 100");  
+StringBuffer sbResult = pSession.xmlTransform(sb, "personlist.xsl");
+if(sbResult!=null)
+  ActionDocument.setItemValue("PersonList", sbResult.toString());
+</pre>
+
+<p>TableManager can also be used to populate the dynamic choices of ListBoxes and ComboBoxes, 
+using very little programmer written code eg:
+<pre>TableManager s = new TableManager(pSystem, pSession, "YourConnectionName", "SITE");
+String szSite[] = s.makeChoicesArray("SELECT SiteName, SiteID from SITE", "- Select a site -|");
+ActionDocument.setItemChoices("SiteList", szSite);
+</pre>
+ 
+<h2>puakma.addin.http.document.HTMLView</h2>
+<p>HTMLView is a generic class for getting data from the database, rendering it with an XSL 
+stylesheet and inserting it in a field in a page. Internally, HTMLView returns a StringBuffer 
+of XML, which is then rendered with the named XSL stylesheet into a computed field on your page. 
+This class sits behind the <P@View tag.
+
+<p>You may provide a null parameter for the dataconnection, next button and previous button. 
+In this case the first available data connection will be used and the next and previous button 
+text will be drawn from the language file (typically msg_en.lang in the /Puakma/config/ directory) 
+
+<p>If the XSL stylesheet named in the parameter does not exist as a resource in the design collection, 
+one will be automatically created based on the columns in the XML returned by the query. If no XML data 
+is returned by the query an XSL stylesheet will not be created. Note: BLOB fields from the database are 
+not included in the XML output.
+
+<p>The following code snippet may be copied directly into your Actions.
+
+<p>On the page, add a computed field:
+<pre>&lt;P@Computed name="LogData" @P&gt;</pre>
+
+<p>Then render the view data into that field:
+<pre>HTMLView hView = new HTMLView(ActionDocument, "logView.xsl", "SELECT * FROM PMALOG ORDER BY LogDate DESC", "ConnectionName",
+                              "Next &amp;gt;", "&amp;lt; Previous");
+hView.setNavigationStyle(HTMLView.NAVIGATION_STYLE_ALPHA);//shows abcd etc across the top of the page or 0
+hView.setRowsPerView(100);
+hView.setDocumentViewHTML("LogData");
+</pre>
+
+<h2>puakma.util.Util</h2>
+<p>The Util class is full of static utility methods that alleviate common programming chores, such as trimming 
+Strings of excess spaces, adjusting Dates, base64 encoding, gzipping, etc eg:
+
+<pre>java.util.Date dtYesterday = puakma.util.Util.adjustDate(new java.util.Date(), 0, 0, -1, 0, 0, 0);</pre>
+
+<h2>puakma.util.RunProgram</h2>
+<p>This class is designed to simplify the running of an executable program (platform native binary code).  eg:
+
+<pre>RunProgram rp = new RunProgram();
+String sCommandLine[] = new String[]{“javac”};
+int iReturnVal = rp.execute(sCommandLine, sEnvironmentArray, fileWorkingDir);
+if(iReturnVal!=0) {
+  System.out.println(“ERROR: ”+new String(rp.getCommandErrorOutput()));      
+}
+else {
+  System.out.println(“SUCCESS: ”+new String(rp.getCommandOutput()));
+}
+</pre>
+
+<p>The current thread will wait for program execution to complete. This does not support running programs as a daemon. 
+Programmers will need to wrap this class in their own thread wrapper if required.
+
+<h2>puakma.system.X500Name</h2>
+<p>This class is designed to allow manipulation of X500Names. For example, the name "CN=SysAdmin/OU=Dept/O=Org" 
+can be simply converted to its component parts.
+
+<pre>X500Name nmUser = new X500Name(pSession.getUserName); 
+nmUser.getCommonName(); // SysAdmin 
+nmUser.getAbbreviatedName(); // SysAdmin/Dept/Org 
+nmUser.getCanonicalName(); // CN=SysAdmin/OU=Dept/O=Org
+</pre>
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

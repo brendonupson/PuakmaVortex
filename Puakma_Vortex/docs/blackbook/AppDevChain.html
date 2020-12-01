@@ -1,0 +1,94 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>URL Design</h1>
+<p>A Tornado Server URL is always described in the following form:
+<code>http://servername/appgroup/apname.pma/DesignElement?ActionType&Parameter=paramvalue</code>
+
+<p>Valid ActionTypes are as follows:
+<table>
+<tr><td>?OpenPage</td><td>Display the named page from the database</td></tr>
+<tr><td>?ReadPage</td><td>Display the named page from the database, but do not allow the fields to be edited</td></tr>
+<tr><td>?OpenAction</td><td>Run the named action</td></tr>
+<tr><td>?OpenResource</td><td>Get the named resource</td></tr>
+<tr><td>?WidgetWSDL</td><td>Show the WSDL for the named Business Widget (Enterprise Edition web services, SOAP). XML output</td></tr>
+<tr><td>?WidgetExecute</td><td>Execute the named Business Widget (Enterprise Edition web services, SOAP). Only from a client HTTP POST. XML output</td></tr>
+<tr><td>?WidgetList</td><td>Displays the available widgets in an application (Enterprise Edition web services, SOAP). XML output</td></tr>
+</table>
+
+<p>Puakma also supports &login and &logout parameters to force a user to login or out.
+
+<p>The design of the URL is important to improve the maintainability of web applications. Developers can look at the URL and easily determine where in the application the problem might be.
+
+
+<h1>Chain Of Events For HTTP Requests</h1>
+<p>Each HTTP request to GET a page follows this process:
+<ol>
+<li>The request enters the server and the http headers are parsed</li>
+<li>The server determines the user’s identity based on the session cookie</li>
+<li>User security is checked against the application and design elements requested</li>
+<li>A “document” is created in memory describing the data sent by the client</li>
+<li>The Page design element is parsed and new items (fields) are created on the 
+document where defined by the Page’s <P@ tags. Page is inserted in its parent where appropriate.</li>
+<li>Each Global OpenAction is run against the Page, updating the document where applicable</li>
+<li>The specific OpenAction for the Page is run, further updating the in-memory document</li>
+<li>The data on the document is rendered with the design of the Page and streamed to the client.</li>
+</ol>
+
+<h1>Custom HTTP Header Processors</h1>
+<p>As a plugin to the HTTP server or BOOSTER server, Puakma supports “Custom HTTP Header Processors”. 
+These processors are able to intercept the request from the browser client before the HTTP server gets 
+to look at it. The Header Processor can the edit and alter the header before passing it on to the HTTP 
+server. This is similar to the URL rewriter in Apache, only more powerful and dynamic due to the ability 
+to edit the entire header. This allows the insertion or interrogation of Single-Sign-On information, 
+automatic logins and many other possibilities.
+
+<p>This is an advanced topic to be covered more fully in a future BlackBook. Once compiled place 
+the SampleHeaderProcessor.class file in the /Puakma/addins/ directory, and add the line:
+<pre>HTTPHeaderProcessors=SampleHeaderProcessor</pre>
+<p>to the Puakma.config file. Multiple processors may be configured, simply separate with a comma 
+in the config file. Following is an example header processor.
+
+<pre>import puakma.util.*;
+
+public class SampleHeaderProcessor extends HTTPHeaderProcessor 
+{        
+  public boolean execute()
+  {
+    if(m_sURI.indexOf(".nsf") > 0) {
+      //this.replaceHeaderValue("Host", "yourdomino.server.com");
+    }
+
+    //alter the request type 
+    //maybe to stop data being posted
+    //m_sMethod = "GET"; //or POST, HEAD etc
+
+    //change the request completely
+    //m_sURI = "/icons/pma_logo.gif";
+
+    //add a new item to the header
+    //m_alHeaders.add("New-Item: Your data");
+
+    //get a value from the header
+    //String s = this.getHeaderValue("User-Agent");
+
+    //log a message to the console
+    m_pSystem.doInformation(this.getClass().getName()+" is processing...", this);
+    //log an error to the console
+    m_pSystem.doError("ERROR MESSAGE", this);
+
+    //return false to allow the next processor in the list work on this header too
+    //if you return true, no more custom header processing will occur by other
+    //loaded header processors
+    return false;
+  }    
+}
+</pre>
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

@@ -1,0 +1,21 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Inheriting Design Elements</h1>
+<p>Puakma supports design templates. This means developers may have multiple instances 
+of an application on a Puakma server, with each instance set to get its design from 
+a template. Each morning at 4am, the RefreshDesign Scheduled Action (inside /system/webdesign.pma) 
+checks the template against the applications that inherit from it and make the appropriate changes, 
+such as adding new elements or updating actions that have changed.
+
+<p>An example of where this may be useful is if your server contains five discussion forum applications 
+all sharing an identical design. By updating the master template, all discussion forums will have their 
+design altered to match the master template the next time the RefreshDesign scheduled action is run.
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

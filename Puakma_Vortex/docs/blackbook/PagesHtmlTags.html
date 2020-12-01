@@ -1,0 +1,64 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h3>HTML formatting and page inclusion tags</h3>
+
+<a name="subPage" />
+<h4>Form definition</h4>
+<p>Includes the entire contents of another page in the current page. These may be nested 3 deep. This 
+is more efficient than a computed page, but cannot be changed at runtime.
+</p>
+<h5>Example:</h5>
+<code>&lt;P@Page PageName @P&gt;</code> includes a "PageName" page.
+
+<a name="computedPage" />
+<h4>Computed page</h4>
+<p>Includes the page named in the value parameter at that position in the current page. This provides 
+the ability to control what is shown programmatically by setting the value of the item in an OpenAction.
+</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">value</td>
+<td>Name of the subpage.</td></tr>
+</table>
+
+<a name="childPage" />
+<h4>Child page</h4>
+<p>Renders the child page into this location. Used for "templating" functionality to simplify page designs 
+and allow complete application rebranding very easily. See below for more information. TODO: &lt= reformulate this section
+</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">value</td>
+<td>Name of the subpage.</td></tr>
+</table>
+<h5>Example</h5>
+<code>&lt;P@ChildPage @P&gt;</code>
+
+<a name="hide" />
+<h4>Show/hide part of the page</h4>
+<p>&lt;P@HideStart and &lt;P@HideEnd is the pair of tags which shows/hides a part of the page on demand. 
+If the OpenAction action sets name parameter via (TODO: which function call or how to call this?) to true,
+the part of the page between those two tags shows, if to false, that part disappears. The value attribute
+controls the default visibility. This is quite handy in the cases such showing different menu for administrator,
+and different one for the normal user in the application.
+</p>
+<h5>Attributes</h5>
+<table class="attrTable">
+<tr><td class="attName">name</td>
+<td>Name of the computed parameter we look at.</td></tr>
+<tr><td class="attName">value</td>
+<td>Is the default visibility. Can be <code>true</code> or <code>false</code></td></tr>
+</table>
+<h5>Example:</h5>
+<pre>&lt;P@HideStart name="HideThis" value="true" @P&gt;
+some stuff....
+&lt;P@HideEnd name="HideThis" @P&gt;
+</pre><html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

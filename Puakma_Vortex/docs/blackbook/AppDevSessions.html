@@ -1,0 +1,33 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Session Authentication</h1>
+
+<p>Each user of the server has a Session object that describes their session. This 
+is available within Actions as the object “pSession”. The session object is very powerful, 
+containing many methods for work with or determining user credentials. Additionally, ad hoc 
+objects may be stored on the session object providing a volatile storage area for data that 
+needs to persist for the duration of the session.
+
+<p>The session is maintained in the web browser using a session token. When a user 
+first connects to the Puakma server, a token is allocated which the browser sends 
+to the server with each subsequent request. Web browsers must support cookies in order 
+to use Puakma.
+
+<p>Tornado Server  supports the Authorization: http header. This allows applications 
+such as web services to authenticate with the server with their credentials.
+
+<p>Sessions exist on the server until there has been no activity for the specified 
+server-wide session timeout interval.
+
+<p>A Tornado server generates Ltpa tokens that may also be used for single sign-on 
+against Lotus Domino servers.
+
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

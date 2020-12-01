@@ -1,0 +1,48 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Puakma as a Service</h1>
+
+<p>Most modern operating systems support the running of programs as a daemon. 
+Puakma may be run as a service, consult your platform documentation or the 
+http://www.puakma.net website for operating system specific service information.
+
+<p>Multiple instances of the server may also be run on the same machine.
+
+<h2>Problems with binding on port 80 on UNIX</h2>
+
+<p>On UNIX operating system it is prohibited for normal users to bind service 
+on TCP port which is lower than 1000. This port can be bound only by root user.
+However running any service is not recommended, and it is considered as big
+security danger. There has been many problems with running services under root
+user in the past. This happened in services written in C language. The main problems 
+were stack overflows, and further execution of code on stack. This is caused by bad 
+buffer bounds checking. Java itself eliminates problems like this because it is 
+principally impossible to run some data in JVM.
+But JVM is written in C/C++, and it might contain some errors which might allow this 
+kind of error.
+So for security reasons it is better to run services under normal user with
+restricted privileges to lower possible harm.
+
+<p>However question how to bind to port 80 is still open. Some servers written in
+C solves this problem, but as Tornado is written in Java, there is no standard
+way how to solve it. There are some solutions how to go around this problem, at least
+on Linux operating system.
+
+<p>This generally means that you can run Tornado server as normal user, bind HTTP 
+for example to port 8080. Then make modification to your firewall to redirect 
+communication from port 80 to port 8080. Next section contains guide how to get
+this done on Linux operating system with iptables firewall.
+
+<p>Also note that problem with binding port lower than 1000 doesn't happen on Windows
+operating system.
+
+<h2>Redirecting port 80 to port 8080 on Linux</h2>
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>

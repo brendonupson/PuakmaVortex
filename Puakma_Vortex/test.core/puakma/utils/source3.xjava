@@ -1,0 +1,107 @@
+
+package actions;
+
+import puakma.system.*;
+import java.util.*;
+import java.sql.*;
+import puakma.addin.http.document.*;
+
+/**
+ * Called on every page to ensure the correct security is applied. This 
+ * should be app specific
+ */
+public class GlobalSecurity extends ActionRunner
+ {
+     private static String LOGIN_PAGE="Login";
+     private String CONNECTION_NAME = "SafetyData";     
+     
+     public String execute()
+     {
+        if(pSession.getUserName().equals(pmaSession.ANONYMOUS_USER))
+        {
+            if(ActionDocument.designObject.getDesignName().equalsIgnoreCase(LOGIN_PAGE)) return "";
+            return ActionDocument.rPath.getFullPath() + "&login";
+        }
+                   
+        //now only authenticated users from here down....                        
+        String sPage = ActionDocument.rPath.DesignElementName;				
+        String sAction = ActionDocument.rPath.Action;
+        String szParam = ActionDocument.rPath.Parameters;
+        
+        
+        if(pSession.hasUserRole("SafetyAdmin") || pSession.hasUserRole("Admin")) return "";
+        
+        /**
+        *If user has role JobHourModifier let them thru - else redirect to a "ReadOnly" page
+        *
+        */
+        
+        if(sPage.equalsIgnoreCase("ReportsEmployee"))
+        {
+             if(pSession.hasUserRole("SafetyOfficer"))         
+                 return "";
+             else
+                 return getDBURL() + "/Unavailable?OpenPage";             
+        }
+        
+        if(sPage.equalsIgnoreCase("NewIncident"))
+        {
+             if(pSession.hasUserRole("SafetyOfficer"))         
+                 return "";
+             else
+                 return getDBURL() + "/Unavailable?OpenPage";             
+        }
+                        
+        if(sPage.equalsIgnoreCase("JobMain"))
+        {
+            
+             if(pSession.hasUserRole("JobHourModifier") || pSession.hasUserRole("SiteAdministrator"))  return "";
+             
+             return getDBURL() + "/ReadJobMain?OpenPage" + szParam;             
+        }
+        
+        //for maintaining industry data
+        if(sPage.equalsIgnoreCase("mntIndustry"))
+        {
+            return getDBURL() + "/Unavailable?OpenPage";
+        }
+        
+        if(sPage.equalsIgnoreCase("LockIncident"))
+        {
+             if(pSession.hasUserRole("SafetyOfficer"))         
+                 return "";
+             else
+                 return getDBURL() + "/Unavailable?OpenPage";             
+        }
+        if(sPage.equalsIgnoreCase("UnLockIncident"))
+        {
+             return getDBURL() + "/Unavailable?OpenPage";             
+        }
+        
+        if(sPage.equalsIgnoreCase("DeleteItem"))
+        {
+             String sWhat = ActionDocument.getParameter("What");
+             //let site admins delete unlocked jobhours records
+             if(sWhat!=null && sWhat.equalsIgnoreCase("JobHours") && pSession.hasUserRole("SiteAdministrator")) return "";
+             return getDBURL() + "/Unavailable?OpenPage";             
+             
+        }
+                
+        if(sAction.equalsIgnoreCase("SavePage"))
+        {
+            if(pSession.hasUserRole("SafetyOfficer")) return "";
+            
+            return getDBURL() + "/Unavailable?OpenPage";
+        }
+        
+        if(sPage.equalsIgnoreCase("MaintainSettings"))
+        {
+             return getDBURL() + "/Unavailable?OpenPage";             
+        }
+        
+        
+        return ""; //no redirect! 
+     }//end execute
+     
+              
+}

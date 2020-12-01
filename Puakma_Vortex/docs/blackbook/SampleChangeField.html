@@ -1,0 +1,25 @@
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body><h1>Changing field types</h1>
+<p>One of the major advantages of p-tags is the ability to change them in an action. For example, under certain conditions perhaps a list box should be removed from the page, or replaced with computed text.
+
+<p>In this example a listbox of project managers is replaced with some plain text:
+<pre>&lt;P@List name="ProjectManagerList" size="10" @P&gt;</pre>
+
+<pre>HTMLDocumentItem hdi = ActionDocument.getHTMLDocumentItem("ProjectManagerList");
+hdi.setType(HTMLDocumentItem.ITEM_TYPE_COMPUTED);
+ActionDocument.setItemValue("ProjectManagerList ", "ALL PROJECT MANAGERS ARE ASSIGNED");
+</pre>
+
+<p>Note: This technique illustrated here does not work with dynamically created fields. For 
+dynamically created fields, the programmer must keep a handle to the dynamic object and manipulate 
+that object.
+<html>
+<head>
+  <title>${TITLE}</title>
+  <link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>
