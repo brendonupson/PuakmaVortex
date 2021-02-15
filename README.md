@@ -40,6 +40,7 @@ Go to Help>Install New Software to install the following components:
 4.	m2e – slf4j over logback logging
 5.	JavaScript Development Tools
 6.	Data Tools Platform SQL Development Tools
+7.	Eclipse Java Web Developer Tools
 
 
 # 4. Compile
